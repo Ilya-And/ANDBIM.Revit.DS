@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANDBIM.Revit.DS", "ANDBIM.Revit.DS\ANDBIM.Revit.DS.csproj", "{98CABEE0-F272-4628-857B-84476F83DBCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		R2021|Any CPU = R2021|Any CPU
+		R2022|Any CPU = R2022|Any CPU
+		R2023|Any CPU = R2023|Any CPU
+		R2024|Any CPU = R2024|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2021|Any CPU.ActiveCfg = R2021|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2021|Any CPU.Build.0 = R2021|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2022|Any CPU.ActiveCfg = R2022|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2022|Any CPU.Build.0 = R2022|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2023|Any CPU.ActiveCfg = R2023|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2023|Any CPU.Build.0 = R2023|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2024|Any CPU.ActiveCfg = R2024|Any CPU
+		{98CABEE0-F272-4628-857B-84476F83DBCA}.R2024|Any CPU.Build.0 = R2024|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {297C965F-000C-48A0-A6D5-EF2E5E5ECB0C}
+	EndGlobalSection
+EndGlobal

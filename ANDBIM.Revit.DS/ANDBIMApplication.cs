@@ -1,0 +1,292 @@
+﻿using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
+using Autodesk.Revit.UI;
+using Autodesk.Windows;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using Application = Autodesk.Revit.ApplicationServices.Application;
+
+namespace ANDBIM.Revit.DS
+{
+    public class EGPApplication : IExternalApplication
+    {
+        private static string ScriptsFolder = "D:\\Архив\\Scripts";
+
+        private static string CommandsFolder = "D:\\Архив\\Commands";
+        public static string ScriptToRun = "";
+        public static Dictionary<string, Dictionary<string, string>> CommandsDictionary = new Dictionary<string, Dictionary<string, string>>();
+
+        public Result OnStartup(UIControlledApplication application)
+        {
+            try
+            {
+                // Создание папки если не существует
+                Directory.CreateDirectory(ScriptsFolder);
+
+                // Создание вкладки Ribbon
+                string tabName = "Dyno Scripts";
+                try
+                {
+                    application.CreateRibbonTab(tabName);
+                }
+                catch (Exception) { }
+
+                // Создание панели
+                Autodesk.Revit.UI.RibbonPanel panel = application.CreateRibbonPanel(tabName, "Dynamic Scripts");
+
+                // Загрузка скриптов
+                LoadScripts(panel);
+
+                Autodesk.Windows.ComponentManager.UIElementActivated += ComponentManagerOnUIElementActivated;
+
+                return Result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to initialize Dyno Manager: {ex.Message}");
+                return Result.Failed;
+            }
+
+            //application.ControlledApplication.ApplicationInitialized += OnApplicationInitialized;
+        }
+
+        private Autodesk.Windows.RibbonButton GetButtonItem(string tabName, string panelName)
+        {
+            RibbonControl ribbon = ComponentManager.Ribbon;
+            foreach (Autodesk.Windows.RibbonTab tab in ribbon.Tabs)
+            {
+                if (tab.Name == tabName)
+                {
+                    foreach (Autodesk.Windows.RibbonPanel panel in tab.Panels)
+                    {
+                        RibbonItemCollection items = panel.Source.Items;
+
+                        foreach (Autodesk.Windows.RibbonItem item in items)
+                        {
+                            if (item is Autodesk.Windows.RibbonButton)
+                            {
+                                ((Autodesk.Windows.RibbonButton)item).PropertyChanged += (sender, e) =>
+                                {
+                                    MessageBox.Show(e.PropertyName);
+                                };
+                            }
+                        }
+
+                        //return panel.FindItem("CustomCtrl_%CustomCtrl_%"
+                        //  + tabName + "%" + panelName + "%" + itemName,
+                        //  true) as Autodesk.Windows.RibbonItem;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            //application.ControlledApplication.ApplicationInitialized -= OnApplicationInitialized;
+
+            Autodesk.Windows.ComponentManager.UIElementActivated -= ComponentManagerOnUIElementActivated;
+            return Result.Succeeded;
+        }
+
+        private void ComponentManagerOnUIElementActivated(object sender, UIElementActivatedEventArgs e)
+        {
+            if (e.Item is null) return;
+            try
+            {
+                if (!e.Item.AutomationName.Contains("Test")) return;
+                //set our current graph based on the click on the ribbon item
+                ScriptToRun = $"{ScriptsFolder}\\{e.Item.AutomationName}.dyn";
+            }
+            catch (Exception)
+            {
+                // suppress the error if it happens
+            }
+        }
+
+
+        private void LoadScripts(Autodesk.Revit.UI.RibbonPanel panel)
+        {
+            // Поиск всех .dyn файлов
+            var dynFiles = Directory.GetFiles(ScriptsFolder, "*.dyn");
+
+            string path = "";
+
+            int i = 1;
+
+            foreach (var dynFile in dynFiles)
+            {
+                try
+                {
+                    string scriptName = Path.GetFileNameWithoutExtension(dynFile);
+                    path += $"\n{scriptName} ({dynFile})";
+                    CreateButton(panel, scriptName, dynFile, i);
+
+                }
+                catch (Exception ex)
+                {
+                    Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to create button for {Path.GetFileName(dynFile)}: {ex.Message}");
+                }
+                i++;
+            }
+
+            MessageBox.Show(path);
+        }
+
+        private PushButton AddButton(Autodesk.Revit.UI.RibbonPanel ribbonPanel, string buttonName, string path, string linkToCommand, string toolTip, string imageName = "LOGO_EGP.ico", bool isZeroDoc = false)
+        {
+            PushButtonData buttonData = new PushButtonData(
+               buttonName,
+               buttonName,
+               path,
+               linkToCommand);
+
+            //Делаем инструмент доступным без открытых документов, при открытом пустом Revit только
+
+            if (isZeroDoc)
+            {
+                buttonData.AvailabilityClassName = linkToCommand.Replace("StartCommand", "Availability");
+            }
+
+
+            BitmapImage img = new BitmapImage(new Uri($"pack://application:,,,/EGPPlugin.Revit;component/Resources/{imageName}"));
+            buttonData.LargeImage = img;
+
+            buttonData.Image = img;
+            PushButton newButton = ribbonPanel.AddItem(buttonData) as PushButton;
+            newButton.ToolTip = toolTip;
+
+            return newButton;
+        }
+
+        private static PushButtonData CreateButtonData(string buttonName, string path, string linkToCommand, string toolTip, string imageName = "LOGO_EGP.ico", bool isZeroDoc = false)
+        {
+            PushButtonData buttonData = new PushButtonData(
+                           buttonName,
+                           buttonName,
+                           path,
+                           linkToCommand);
+
+            //Делаем инструмент доступным без открытых документов, при открытом пустом Revit только
+
+            if (isZeroDoc)
+            {
+                buttonData.AvailabilityClassName = linkToCommand.Replace("StartCommand", "Availability");
+            }
+
+            BitmapImage img = new BitmapImage(new Uri($"pack://application:,,,/EGPPlugin.Revit;component/Resources/{imageName}"));
+            BitmapImage img16 = new BitmapImage(new Uri($"pack://application:,,,/EGPPlugin.Revit;component/Resources/{imageName.Replace(".ico", "_16.ico")}"));
+
+            buttonData.LargeImage = img;
+            buttonData.Image = img16;
+            buttonData.ToolTip = toolTip;
+
+            return buttonData;
+        }
+
+        //private Autodesk.Windows.RibbonItem GetButtonItem(string tabName, string panelName, string itemName)
+        //{
+        //    Autodesk.Windows.RibbonControl ribbon = Autodesk.Windows.ComponentManager.Ribbon;
+        //    foreach (Autodesk.Windows.RibbonTab tab in ribbon.Tabs)
+        //    {
+        //        if (tab.Name == tabName)
+        //        {
+        //            foreach (Autodesk.Windows.RibbonPanel panel in tab.Panels)
+        //            {
+        //                if (panel.Source.Title == panelName)
+        //                {
+        //                    return panel.FindItem("CustomCtrl_%CustomCtrl_%"
+        //                      + tabName + "%" + panelName + "%" + itemName,
+        //                      true) as Autodesk.Windows.RibbonItem;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
+
+        private Autodesk.Windows.RibbonPanel GetRibbonPanel(string tabName, string panelName)
+        {
+            Autodesk.Windows.RibbonControl ribbon = Autodesk.Windows.ComponentManager.Ribbon;
+            foreach (Autodesk.Windows.RibbonTab tab in ribbon.Tabs)
+            {
+                if (tab.Name == tabName)
+                {
+                    foreach (Autodesk.Windows.RibbonPanel panel in tab.Panels)
+                    {
+                        if (panel.Source.Title == panelName)
+                        {
+                            return panel;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+        private void ClearOldCommands()
+        {
+            try
+            {
+                var commandFiles = Directory.GetFiles(CommandsFolder, "*.dll");
+                foreach (var file in commandFiles)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+        }
+
+        private void CreateButton(Autodesk.Revit.UI.RibbonPanel panel, string scriptName, string scriptPath, int number)
+        {
+            try
+            {
+                var buttonData = new PushButtonData(
+                $"Btn_{scriptName.Replace(" ", "_")}",
+                scriptName,
+                Assembly.GetExecutingAssembly().Location,
+                $"TestLoadFamilyHandler.DynamoCommand1");
+
+                // Сохраняем путь к скрипту в параметрах кнопки
+                buttonData.ToolTip = $"{scriptName}";
+                buttonData.LongDescription = scriptPath; // Используем для хранения пути
+                MessageBox.Show(buttonData.LongDescription);
+                // Добавление иконки если есть
+                string iconPath = Path.Combine(ScriptsFolder, $"{scriptName}.png");
+                if (File.Exists(iconPath))
+                {
+                    buttonData.LargeImage = new BitmapImage(new Uri(iconPath));
+                }
+
+                panel.AddItem(buttonData);
+
+                CommandsDictionary[scriptName] = new Dictionary<string, string>()
+                {
+                    { scriptPath, $"DynamoCommand1" }
+                };
+            }
+            catch (Exception ex)
+            {
+                Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to create button for {scriptName}: {ex.Message}");
+            }
+        }
+
+        private void OnApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
+        {
+            GetButtonItem("Dyno Scripts", "Dynamic Scripts");
+        }
+    }
+}

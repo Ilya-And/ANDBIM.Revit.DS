@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{98CABEE0-F272-4628-857B-84476F83DBCA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ANDBIM.Revit.DS</RootNamespace>
+    <AssemblyName>ANDBIM.Revit.DS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'R2021|AnyCPU' ">
+    <OutputPath>bin\R2021\</OutputPath>
+    <DefineConstants>TRACE;R2021</DefineConstants>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'R2022|AnyCPU' ">
+    <OutputPath>bin\R2022\</OutputPath>
+    <DefineConstants>TRACE;R2022</DefineConstants>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'R2023|AnyCPU' ">
+    <OutputPath>bin\R2023\</OutputPath>
+    <DefineConstants>TRACE;R2023</DefineConstants>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'R2024|AnyCPU' ">
+    <OutputPath>bin\R2024\</OutputPath>
+    <DefineConstants>TRACE;R2024</DefineConstants>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)</AssemblyName>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='R2021' or '$(Configuration)'=='Debug'">
+      <ItemGroup>
+        <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+          <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="PresentationFramework.Classic" />
+        <Reference Include="RevitAPI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2022' ">
+      <ItemGroup>
+        <Reference Include="AdWindows">
+          <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+          <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="PresentationFramework.Classic" />
+        <Reference Include="RevitAPI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2023' ">
+      <ItemGroup>
+        <Reference Include="AdWindows">
+          <HintPath>C:\Program Files\Autodesk\Revit 2023\AdWindows.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+          <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="PresentationFramework.Classic" />
+        <Reference Include="RevitAPI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPIUI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2024' ">
+      <ItemGroup>
+        <Reference Include="AdWindows">
+          <HintPath>C:\Program Files\Autodesk\Revit 2024\AdWindows.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+          <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+          <EmbedInteropTypes>True</EmbedInteropTypes>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="PresentationFramework.Classic" />
+        <Reference Include="RevitAPI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+          <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPIUI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="DynamoCore">
+      <HintPath>C:\Program Files\Autodesk\Revit 2023\AddIns\DynamoForRevit\DynamoCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DynamoRevitDS">
+      <HintPath>C:\Program Files\Autodesk\Revit 2023\AddIns\DynamoForRevit\Revit\DynamoRevitDS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ANDBIMApplication.cs" />
+    <Compile Include="DynamoStartCommand.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
