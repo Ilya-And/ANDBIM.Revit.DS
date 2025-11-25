@@ -3,46 +3,128 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration.Assemblies;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace ANDBIM.Revit.DS
 {
-    public class EGPApplication : IExternalApplication
+    public class ANDBIMApplication : IExternalApplication
     {
-        private static string ScriptsFolder = "D:\\Архив\\Scripts";
-
-        private static string CommandsFolder = "D:\\Архив\\Commands";
+        //private static string ScriptsFolder = "D:\\Архив\\Scripts";
         public static string ScriptToRun = "";
-        public static Dictionary<string, Dictionary<string, string>> CommandsDictionary = new Dictionary<string, Dictionary<string, string>>();
+        public static string TabRun = "";
+        public static string PanelRun = "";
+        public static List<ViewTab> CommandsList = new List<ViewTab>();
+        public static UIControlledApplication ThisApplication;
+
+        public static string AssemblyPath { get; private set; }
 
         public Result OnStartup(UIControlledApplication application)
         {
+            ThisApplication = application;
+            string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
+            var arrayStr = thisAssemblyPath.Split('\\').ToList();
+            arrayStr.Remove(arrayStr[arrayStr.Count - 1]);
+            string folderPath = string.Join("\\", arrayStr.ToArray());
+            AssemblyPath = folderPath;
+
             try
             {
-                // Создание папки если не существует
-                Directory.CreateDirectory(ScriptsFolder);
+                //// Создание папки если не существует
+                //Directory.CreateDirectory(ScriptsFolder);
 
-                // Создание вкладки Ribbon
-                string tabName = "Dyno Scripts";
-                try
+                //// Создание вкладки Ribbon
+                //string tabName = "Dyno Scripts";
+                //try
+                //{
+                //    application.CreateRibbonTab(tabName);
+                //}
+                //catch (Exception) { }
+
+                //// Создание панели
+                //Autodesk.Revit.UI.RibbonPanel panel = application.CreateRibbonPanel(tabName, "Dynamic Scripts");
+
+                //// Загрузка скриптов
+                //LoadScripts(panel);
+
+
+                var andbimPanel = application.CreateRibbonPanel("ANDBIM DS");
+
+                PushButtonData buttonDataAddTab = new PushButtonData("Создать вкладку",
+                                                                        "Создать\nвкладку",
+                                                                        thisAssemblyPath,
+                                                                        "ANDBIM.Revit.DS.RibbonTabCreatorCommand");
+
+                PushButton newButton = andbimPanel.AddItem(buttonDataAddTab) as PushButton;
+                newButton.ToolTip = "Создание пользовательской вкладки";
+
+                bool isExist = File.Exists($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
+
+                if (!isExist)
                 {
-                    application.CreateRibbonTab(tabName);
+                    File.Create($"{Assembly.GetExecutingAssembly().Location}\\ANDBIM.Revit.DS.Configuration.json");
                 }
-                catch (Exception) { }
+                else
+                {
+                    var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
 
-                // Создание панели
-                Autodesk.Revit.UI.RibbonPanel panel = application.CreateRibbonPanel(tabName, "Dynamic Scripts");
+                    foreach (ViewTab viewTab in configList)
+                    {
+                        ThisApplication.CreateRibbonTab(viewTab.Name);
 
-                // Загрузка скриптов
-                LoadScripts(panel);
+                        foreach (ViewPanel panel in viewTab.Panels)
+                        {
+                            var ribbonPanel = ThisApplication.CreateRibbonPanel(viewTab.Name, panel.Name);
+
+                            foreach (ViewButtonGroup viewButtonGroup in panel.ButtonGroups)
+                            {
+                                if (viewButtonGroup.ButtonGroupType == ViewButtonGroupTypeEnum.StandartButton)
+                                {
+                                    PushButtonData buttonData = new PushButtonData($"{viewButtonGroup.Buttons[0].Name}",
+                                                                    $"{viewButtonGroup.Buttons[0].Name}",
+                                                                    thisAssemblyPath,
+                                                                    "ANDBIM.Revit.DS.DynamoStartCommand");
+
+                                    PushButton newRibbonButton = ribbonPanel.AddItem(buttonData) as PushButton;
+
+                                    newRibbonButton.ToolTip = viewButtonGroup.Buttons[0].Description;
+                                    newRibbonButton.LongDescription = viewButtonGroup.Buttons[0].LongDescription;
+                                }
+
+                                else
+                                {
+                                    PushButtonData pushButtonData1 = new PushButtonData($"{viewButtonGroup.Buttons[0].Name}",
+                                                                    $"{viewButtonGroup.Buttons[0].Name}",
+                                                                    thisAssemblyPath,
+                                                                    "ANDBIM.Revit.DS.DynamoStartCommand");
+                                    PushButtonData pushButtonData2 = new PushButtonData($"{viewButtonGroup.Buttons[1].Name}",
+                                                                    $"{viewButtonGroup.Buttons[1].Name}",
+                                                                    thisAssemblyPath,
+                                                                    "ANDBIM.Revit.DS.DynamoStartCommand");
+                                    PushButtonData pushButtonData3 = new PushButtonData($"{viewButtonGroup.Buttons[2].Name}",
+                                                                    $"{viewButtonGroup.Buttons[2].Name}",
+                                                                    thisAssemblyPath,
+                                                                    "ANDBIM.Revit.DS.DynamoStartCommand");
+
+                                    ribbonPanel.AddStackedItems(pushButtonData1, pushButtonData2, pushButtonData3);
+                                }
+                            }
+                        }
+                    }
+                }
 
                 Autodesk.Windows.ComponentManager.UIElementActivated += ComponentManagerOnUIElementActivated;
 
@@ -103,7 +185,7 @@ namespace ANDBIM.Revit.DS
             {
                 if (!e.Item.AutomationName.Contains("Test")) return;
                 //set our current graph based on the click on the ribbon item
-                ScriptToRun = $"{ScriptsFolder}\\{e.Item.AutomationName}.dyn";
+                ScriptToRun = $"{AssemblyPath}//{e.Item.AutomationName}.dyn";
             }
             catch (Exception)
             {
@@ -115,7 +197,7 @@ namespace ANDBIM.Revit.DS
         private void LoadScripts(Autodesk.Revit.UI.RibbonPanel panel)
         {
             // Поиск всех .dyn файлов
-            var dynFiles = Directory.GetFiles(ScriptsFolder, "*.dyn");
+            var dynFiles = Directory.GetFiles("ScriptsFolder", "*.dyn");
 
             string path = "";
 
@@ -125,14 +207,14 @@ namespace ANDBIM.Revit.DS
             {
                 try
                 {
-                    string scriptName = Path.GetFileNameWithoutExtension(dynFile);
+                    string scriptName = System.IO.Path.GetFileNameWithoutExtension(dynFile);
                     path += $"\n{scriptName} ({dynFile})";
                     CreateButton(panel, scriptName, dynFile, i);
 
                 }
                 catch (Exception ex)
                 {
-                    Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to create button for {Path.GetFileName(dynFile)}: {ex.Message}");
+                    Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to create button for {System.IO.Path.GetFileName(dynFile)}: {ex.Message}");
                 }
                 i++;
             }
@@ -237,7 +319,7 @@ namespace ANDBIM.Revit.DS
         {
             try
             {
-                var commandFiles = Directory.GetFiles(CommandsFolder, "*.dll");
+                var commandFiles = Directory.GetFiles("CommandsFolder", "*.dll");
                 foreach (var file in commandFiles)
                 {
                     try
@@ -265,7 +347,7 @@ namespace ANDBIM.Revit.DS
                 buttonData.LongDescription = scriptPath; // Используем для хранения пути
                 MessageBox.Show(buttonData.LongDescription);
                 // Добавление иконки если есть
-                string iconPath = Path.Combine(ScriptsFolder, $"{scriptName}.png");
+                string iconPath = System.IO.Path.Combine("ScriptsFolder", $"{scriptName}.png");
                 if (File.Exists(iconPath))
                 {
                     buttonData.LargeImage = new BitmapImage(new Uri(iconPath));
@@ -273,10 +355,10 @@ namespace ANDBIM.Revit.DS
 
                 panel.AddItem(buttonData);
 
-                CommandsDictionary[scriptName] = new Dictionary<string, string>()
-                {
-                    { scriptPath, $"DynamoCommand1" }
-                };
+                //CommandsDictionary[scriptName] = new Dictionary<string, string>()
+                //{
+                //    { scriptPath, $"DynamoCommand1" }
+                //};
             }
             catch (Exception ex)
             {
@@ -286,7 +368,60 @@ namespace ANDBIM.Revit.DS
 
         private void OnApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
         {
-            GetButtonItem("Dyno Scripts", "Dynamic Scripts");
+            bool isExist = File.Exists($"{Assembly.GetExecutingAssembly().Location}\\ANDBIM.Revit.DS.Configuration.json");
+
+            if (!isExist)
+            {
+                File.Create($"{Assembly.GetExecutingAssembly().Location}\\ANDBIM.Revit.DS.Configuration.json");
+            }
+            else
+            {
+                var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
+
+                foreach (ViewTab viewTab in configList)
+                {
+                    ThisApplication.CreateRibbonTab(viewTab.Name);
+
+                    foreach (ViewPanel panel in viewTab.Panels)
+                    {
+                        var ribbonPanel = ThisApplication.CreateRibbonPanel(panel.Name);
+
+                        foreach (ViewButtonGroup viewButtonGroup in panel.ButtonGroups)
+                        {
+                            if (viewButtonGroup.ButtonGroupType == ViewButtonGroupTypeEnum.StandartButton)
+                            {
+                                PushButtonData buttonData = new PushButtonData($"{viewButtonGroup.Buttons[0].Name}",
+                                                                $"{viewButtonGroup.Buttons[0].Name}",
+                                                                Assembly.GetExecutingAssembly().Location,
+                                                                "ANDBIM.Revit.DS.DynamoStartCommand");
+
+                                PushButton newButton = ribbonPanel.AddItem(buttonData) as PushButton;
+
+                                newButton.ToolTip = viewButtonGroup.Buttons[0].Description;
+                                newButton.LongDescription = viewButtonGroup.Buttons[0].LongDescription;
+                            }
+
+                            else
+                            {
+                                PushButtonData pushButtonData1 = new PushButtonData($"{viewButtonGroup.Buttons[0].Name}",
+                                                                $"{viewButtonGroup.Buttons[0].Name}",
+                                                                Assembly.GetExecutingAssembly().Location,
+                                                                "ANDBIM.Revit.DS.DynamoStartCommand");
+                                PushButtonData pushButtonData2 = new PushButtonData($"{viewButtonGroup.Buttons[1].Name}",
+                                                                $"{viewButtonGroup.Buttons[1].Name}",
+                                                                Assembly.GetExecutingAssembly().Location,
+                                                                "ANDBIM.Revit.DS.DynamoStartCommand");
+                                PushButtonData pushButtonData3 = new PushButtonData($"{viewButtonGroup.Buttons[2].Name}",
+                                                                $"{viewButtonGroup.Buttons[2].Name}",
+                                                                Assembly.GetExecutingAssembly().Location,
+                                                                "ANDBIM.Revit.DS.DynamoStartCommand");
+
+                                ribbonPanel.AddStackedItems(pushButtonData1, pushButtonData2, pushButtonData3);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿<Window x:Class="ANDBIM.Revit.DS.SetButtonParametersWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ANDBIM.Revit.DS"
+             mc:Ignorable="d" 
+             SizeToContent="Height"
+             Height="200" Width="400">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Введите имя"/>
+            <TextBox x:Name="nameTextBox"/>
+
+            <TextBlock Text="Выберите изображение"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="pathToImageTextBox"/>
+                <Button Click="GetPathToImage_Click"
+            Grid.Column="1"/>
+            </Grid>
+
+            <TextBlock Text="Введите имя панели"/>
+            <TextBox x:Name="panelNameTextBox"/>
+
+            <TextBlock Text="Выберите скрипт"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="pathToScriptTextBox"/>
+                <Button Click="GetPathToScript_Click"
+                        Grid.Column="1"/>
+            </Grid>
+
+            <TextBlock Text="Введите описание"/>
+            <TextBox x:Name="descriptionTextBox"/>
+
+            <TextBlock Text="Введите дополнительное описание"/>
+            <TextBox x:Name="longDescriptionTextBox"/>
+
+            <Button Content="Создать"
+                    Click="ButtonStart_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

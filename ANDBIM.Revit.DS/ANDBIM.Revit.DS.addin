@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>ANDBIM Plugin</Name>
+		<Assembly>ANDBIM.Revit.DS.dll</Assembly>
+		<FullClassName>ANDBIM.Revit.DS.ANDBIMApplication</FullClassName>
+		<ClientId>c6e2309e-31e8-420b-9f1f-99e1921993f8</ClientId>
+		<VendorId>Andreev BIM</VendorId>
+		<VendorDescription>Andreev BIM</VendorDescription>
+	</AddIn>
+</RevitAddIns>

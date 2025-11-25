@@ -167,17 +167,46 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ANDBIMApplication.cs" />
+    <Compile Include="Model\RelayCommand.cs" />
+    <Compile Include="Model\ViewButton.cs" />
+    <Compile Include="Model\ViewButtonGroup.cs" />
+    <Compile Include="Model\ViewButtonGroupTypeEnum.cs" />
+    <Compile Include="Model\ViewPanel.cs" />
+    <Compile Include="Model\ViewTab.cs" />
+    <Compile Include="RibbonPanelCreatorCommand.cs" />
+    <Compile Include="RibbonButtonCreatorCommand.cs" />
+    <Compile Include="RibbonTabCreatorCommand.cs" />
     <Compile Include="DynamoStartCommand.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\SetButtonParametersWindow.xaml.cs">
+      <DependentUpon>SetButtonParametersWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SetNameWindow.xaml.cs">
+      <DependentUpon>SetNameWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SetButtonParametersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SetNameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ANDBIM.Revit.DS.addin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

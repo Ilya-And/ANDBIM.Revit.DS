@@ -41,7 +41,7 @@ namespace ANDBIM.Revit.DS
                 //    return Result.Failed;
                 //}
 
-                string scriptPath = EGPApplication.ScriptToRun;
+                string scriptPath = ANDBIMApplication.ScriptToRun;
 
                 //foreach (string buttonName in EGPApplication.CommandsDictionary.Keys)
                 //{
