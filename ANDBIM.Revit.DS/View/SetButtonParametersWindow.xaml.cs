@@ -83,7 +83,7 @@ namespace ANDBIM.Revit.DS
 
                         foreach (ViewPanel pan in tab.Panels)
                         {
-                            if (pan.Name == viewPanel.Name)
+                            if (pan.Name == panel.Name)
                             {
                                 pan.Name = panel.Name;
                                 pan.ButtonGroups.Add(new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>()
