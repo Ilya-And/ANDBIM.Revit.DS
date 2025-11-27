@@ -47,7 +47,7 @@
     <AssemblyName>$(AssemblyName)</AssemblyName>
   </PropertyGroup>
   <Choose>
-    <When Condition=" '$(Configuration)'=='R2021' or '$(Configuration)'=='Debug'">
+    <When Condition=" '$(Configuration)'=='R2021'">
       <ItemGroup>
         <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
           <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -94,7 +94,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition=" '$(Configuration)'=='R2023' ">
+    <When Condition=" '$(Configuration)'=='R2023' or '$(Configuration)'=='Debug'">
       <ItemGroup>
         <Reference Include="AdWindows">
           <HintPath>C:\Program Files\Autodesk\Revit 2023\AdWindows.dll</HintPath>

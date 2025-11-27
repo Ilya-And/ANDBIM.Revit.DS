@@ -1,4 +1,6 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using Autodesk.Windows;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -86,26 +88,26 @@ namespace ANDBIM.Revit.DS
                                                                         Assembly.GetExecutingAssembly().Location,
                                                                         "ANDBIM.Revit.DS.RibbonPanelCreatorCommand");
 
-                RibbonPanel panel = CreatePanel(tabName, "ANDBIM.DS.Settings");
+                Autodesk.Revit.UI.RibbonPanel panel = CreatePanel(tabName, "ANDBIM.DS.Settings");
 
                 panel.AddItem(buttonDataAddButton);
                 panel.AddItem(buttonDataAddPanel);
 
                 var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
 
-                ObservableCollection<ViewButtonGroup> viewButtonGroups = new ObservableCollection<ViewButtonGroup>()
-                {
-                    new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>(){ new ViewButton("", "", "", "", "Создать кнопку")}),
-                    new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>(){ new ViewButton("", "", "", "", "Создать панель")})
+                //ObservableCollection<ViewButtonGroup> viewButtonGroups = new ObservableCollection<ViewButtonGroup>()
+                //{
+                //    new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>(){ new ViewButton("", "", "", "", "Создать кнопку")}),
+                //    new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>(){ new ViewButton("", "", "", "", "Создать панель")})
 
-                };
+                //};
 
-                ObservableCollection<ViewPanel> viewPanels = new ObservableCollection<ViewPanel>()
-                {
-                    new ViewPanel("ANDBIM.DS.Settings", viewButtonGroups)
-                };
+                //ObservableCollection<ViewPanel> viewPanels = new ObservableCollection<ViewPanel>()
+                //{
+                //    new ViewPanel("ANDBIM.DS.Settings", viewButtonGroups)
+                //};
 
-                ViewTab viewTabToSave = new ViewTab(tabName, viewPanels);
+                ViewTab viewTabToSave = new ViewTab(tabName);
                 if (configList == null)
                 {
                     configList = new List<ViewTab>();
@@ -132,11 +134,31 @@ namespace ANDBIM.Revit.DS
             }
         }
 
-        private RibbonPanel CreatePanel(string tabName, string panelName)
+        private Autodesk.Revit.UI.RibbonPanel CreatePanel(string tabName, string panelName)
         {
             try
             {
                 var ribbonPanel = CommandData.Application.CreateRibbonPanel(tabName, panelName);
+
+                //var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
+                //var tab = (from ViewTab t in configList
+                //           where t.Name == tabName
+                //           select t).FirstOrDefault();
+
+                //if (tab != null)
+                //{
+                //    foreach (ViewTab viewTab in configList)
+                //    {
+                //        if (viewTab.Name == tabName)
+                //        {
+                //            var viewPanel = new ViewPanel(panelName, new ObservableCollection<ViewButtonGroup>());
+
+                //            viewTab.Panels.Add(viewPanel);
+                //        }
+                //    }
+                //}
+
+                //File.WriteAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json", JsonConvert.SerializeObject(configList));
 
                 return ribbonPanel;
             }
@@ -146,6 +168,24 @@ namespace ANDBIM.Revit.DS
                 MessageBox.Show($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
                 return null;
             }
+        }
+
+        private string GetActiveTabName()
+        {
+            RibbonControl ribbon = Autodesk.Windows.ComponentManager.Ribbon;
+
+            string tabName = "";
+
+            // Iterate through the tabs to find the active one
+            foreach (RibbonTab tab in ribbon.Tabs)
+            {
+                if (tab.IsActive)
+                {
+                    tabName = tab.Name;
+                }
+            }
+
+            return tabName;
         }
     }
 }

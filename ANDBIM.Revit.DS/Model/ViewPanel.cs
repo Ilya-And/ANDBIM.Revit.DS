@@ -14,10 +14,14 @@ namespace ANDBIM.Revit.DS
             Name = name;
             ButtonGroups = buttonGroups;
         }
+        public ViewPanel(string name)
+        {
+            Name = name;
+        }
         public ViewPanel()
         {
         }
-        public string Name { get; set; }
-        public ObservableCollection<ViewButtonGroup> ButtonGroups { get; set; }
+        public string Name { get; set; } = "";
+        public ObservableCollection<ViewButtonGroup> ButtonGroups { get; set; } = new ObservableCollection<ViewButtonGroup>();
     }
 }

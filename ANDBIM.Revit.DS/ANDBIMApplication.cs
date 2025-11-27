@@ -92,6 +92,22 @@ namespace ANDBIM.Revit.DS
                     {
                         ThisApplication.CreateRibbonTab(viewTab.Name);
 
+                        var settingsPanel = ThisApplication.CreateRibbonPanel(viewTab.Name, "ANDBIM.DS.Settings");
+
+                        PushButtonData buttonDataAddButton = new PushButtonData("Создать кнопку",
+                                                                        "Создать кнопку",
+                                                                        Assembly.GetExecutingAssembly().Location,
+                                                                        "ANDBIM.Revit.DS.RibbonButtonCreatorCommand");
+                        PushButtonData buttonDataAddPanel = new PushButtonData("Создать панель",
+                                                                                "Создать панель",
+                                                                                Assembly.GetExecutingAssembly().Location,
+                                                                                "ANDBIM.Revit.DS.RibbonPanelCreatorCommand");
+
+                        settingsPanel.AddItem(buttonDataAddButton);
+                        settingsPanel.AddItem(buttonDataAddPanel);
+
+                        settingsPanel.Visible = false;
+
                         foreach (ViewPanel panel in viewTab.Panels)
                         {
                             var ribbonPanel = ThisApplication.CreateRibbonPanel(viewTab.Name, panel.Name);
@@ -128,10 +144,6 @@ namespace ANDBIM.Revit.DS
 
                                     ribbonPanel.AddStackedItems(pushButtonData1, pushButtonData2, pushButtonData3);
                                 }
-                            }
-                            if (panel.Name == "ANDBIM.DS.Settings")
-                            {
-                                ribbonPanel.Visible = false;
                             }
                         }
                     }

@@ -66,7 +66,7 @@ namespace ANDBIM.Revit.DS
                        select t).FirstOrDefault();
 
             var viewPanel = (from ViewPanel v in tab.Panels
-                            where v.Name == panel.Title
+                            where v.Name == panel.Name
                             select v).FirstOrDefault();
 
             if (tab != null)
@@ -75,20 +75,25 @@ namespace ANDBIM.Revit.DS
                 {
                     if (tab.Name == GetActiveTabName())
                     {
-                        if (viewPanel != null)
+                        if (viewPanel == null)
                         {
-                            foreach (ViewPanel pan in tab.Panels)
-                            {
-                                if (pan.Name == viewPanel.Name)
-                                {
-                                    pan.ButtonGroups.Add(new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>()
-                                    {
-                                        new ViewButton("", "", $"{descriptionTextBox.Text}", $"{longDescriptionTextBox.Text}", $"{nameTextBox.Text}")
+                            viewPanel = new ViewPanel(panel.Name);
+                            viewTab.Panels.Add(viewPanel);
+                        }
 
-                                    }));
-                                }
+                        foreach (ViewPanel pan in tab.Panels)
+                        {
+                            if (pan.Name == viewPanel.Name)
+                            {
+                                pan.Name = panel.Name;
+                                pan.ButtonGroups.Add(new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>()
+                                {
+                                    new ViewButton("", "", $"{descriptionTextBox.Text}", $"{longDescriptionTextBox.Text}", $"{nameTextBox.Text}")
+
+                                }));
                             }
                         }
+
                         break;
                     }
                 }

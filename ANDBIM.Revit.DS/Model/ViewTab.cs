@@ -23,8 +23,8 @@ namespace ANDBIM.Revit.DS
         {
             Name = name;
         }
-        public string Name { get; set; }
-        public ObservableCollection<ViewPanel> Panels { get; set; }
+        public string Name { get; set; } = "";
+        public ObservableCollection<ViewPanel> Panels { get; set; } = new ObservableCollection<ViewPanel>();
 
     }
 }

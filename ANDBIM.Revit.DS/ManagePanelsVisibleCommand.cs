@@ -29,7 +29,6 @@ namespace ANDBIM.Revit.DS
         {
             // Access the RibbonControl using reflection
             RibbonControl ribbon = Autodesk.Windows.ComponentManager.Ribbon;
-            MessageBox.Show("work");
 
             foreach (RibbonTab tab in ribbon.Tabs)
             {
