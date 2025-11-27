@@ -86,7 +86,7 @@ namespace ANDBIM.Revit.DS
                                                                         Assembly.GetExecutingAssembly().Location,
                                                                         "ANDBIM.Revit.DS.RibbonPanelCreatorCommand");
 
-                RibbonPanel panel = CreatePanel(tabName, "Управление");
+                RibbonPanel panel = CreatePanel(tabName, "ANDBIM.DS.Settings");
 
                 panel.AddItem(buttonDataAddButton);
                 panel.AddItem(buttonDataAddPanel);
@@ -102,7 +102,7 @@ namespace ANDBIM.Revit.DS
 
                 ObservableCollection<ViewPanel> viewPanels = new ObservableCollection<ViewPanel>()
                 {
-                    new ViewPanel("Управление", viewButtonGroups)
+                    new ViewPanel("ANDBIM.DS.Settings", viewButtonGroups)
                 };
 
                 ViewTab viewTabToSave = new ViewTab(tabName, viewPanels);

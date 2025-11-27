@@ -67,15 +67,22 @@ namespace ANDBIM.Revit.DS
                                                                         "Создать\nвкладку",
                                                                         thisAssemblyPath,
                                                                         "ANDBIM.Revit.DS.RibbonTabCreatorCommand");
+                PushButtonData buttonDataManagePanelVisible = new PushButtonData("Панели\nуправления",
+                                                                        "Панели\nуправления",
+                                                                        thisAssemblyPath,
+                                                                        "ANDBIM.Revit.DS.ManagePanelsVisibleCommand");
 
-                PushButton newButton = andbimPanel.AddItem(buttonDataAddTab) as PushButton;
-                newButton.ToolTip = "Создание пользовательской вкладки";
+                PushButton newButtonAddTab = andbimPanel.AddItem(buttonDataAddTab) as PushButton;
+                newButtonAddTab.ToolTip = "Создание пользовательской вкладки";
+
+                PushButton newButtonManagePanelVisible = andbimPanel.AddItem(buttonDataManagePanelVisible) as PushButton;
+                newButtonManagePanelVisible.ToolTip = "Включение/отключение панелей управления на созданных вкладках";
 
                 bool isExist = File.Exists($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
 
                 if (!isExist)
                 {
-                    File.Create($"{Assembly.GetExecutingAssembly().Location}\\ANDBIM.Revit.DS.Configuration.json");
+                    File.Create($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
                 }
                 else
                 {
@@ -121,6 +128,10 @@ namespace ANDBIM.Revit.DS
 
                                     ribbonPanel.AddStackedItems(pushButtonData1, pushButtonData2, pushButtonData3);
                                 }
+                            }
+                            if (panel.Name == "ANDBIM.DS.Settings")
+                            {
+                                ribbonPanel.Visible = false;
                             }
                         }
                     }

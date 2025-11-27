@@ -173,6 +173,7 @@
     <Compile Include="Model\ViewButtonGroupTypeEnum.cs" />
     <Compile Include="Model\ViewPanel.cs" />
     <Compile Include="Model\ViewTab.cs" />
+    <Compile Include="ManagePanelsVisibleCommand.cs" />
     <Compile Include="RibbonPanelCreatorCommand.cs" />
     <Compile Include="RibbonButtonCreatorCommand.cs" />
     <Compile Include="RibbonTabCreatorCommand.cs" />
