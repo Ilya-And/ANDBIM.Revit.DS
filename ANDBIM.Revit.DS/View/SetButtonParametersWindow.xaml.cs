@@ -73,7 +73,7 @@ namespace ANDBIM.Revit.DS
             {
                 foreach (ViewTab viewTab in configList)
                 {
-                    if (tab.Name == GetActiveTabName())
+                    if (viewTab.Name == GetActiveTabName())
                     {
                         if (viewPanel == null)
                         {
