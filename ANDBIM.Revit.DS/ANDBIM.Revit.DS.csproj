@@ -156,6 +156,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -178,6 +179,8 @@
     <Compile Include="RibbonButtonCreatorCommand.cs" />
     <Compile Include="RibbonTabCreatorCommand.cs" />
     <Compile Include="DynamoStartCommand.cs" />
+    <Compile Include="ViewModel\SetButtonParametersViewModel.cs" />
+    <Compile Include="ViewModel\SetNameViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -206,8 +209,6 @@
   <ItemGroup>
     <None Include="ANDBIM.Revit.DS.addin" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

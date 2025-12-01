@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:ANDBIM.Revit.DS"
              mc:Ignorable="d" 
              SizeToContent="Height"
-             Height="200" Width="400">
+             Height="300" Width="400">
     <Grid>
         <StackPanel>
             <TextBlock Text="Введите имя"/>
-            <TextBox x:Name="nameTextBox"/>
+            <TextBox Text="{Binding ButtonName}"/>
 
             <TextBlock Text="Выберите изображение"/>
             <Grid>
@@ -18,13 +18,15 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="pathToImageTextBox"/>
-                <Button Click="GetPathToImage_Click"
-            Grid.Column="1"/>
+                <TextBox Text="{Binding ImagePath}"
+                         IsEnabled="False"/>
+                <Button Command="{Binding GetImageCommand}"
+                        Grid.Column="1"/>
             </Grid>
 
-            <TextBlock Text="Введите имя панели"/>
-            <TextBox x:Name="panelNameTextBox"/>
+            <TextBlock Text="Выберите панель"/>
+            <ComboBox ItemsSource="{Binding Panels}"
+                      SelectedItem="{Binding SelectedPanel}"/>
 
             <TextBlock Text="Выберите скрипт"/>
             <Grid>
@@ -32,19 +34,19 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="pathToScriptTextBox"/>
-                <Button Click="GetPathToScript_Click"
+                <TextBox Text="{Binding ScriptPath}"/>
+                <Button Command="{Binding GetScriptCommand}"
                         Grid.Column="1"/>
             </Grid>
 
             <TextBlock Text="Введите описание"/>
-            <TextBox x:Name="descriptionTextBox"/>
+            <TextBox Text="{Binding Description}"/>
 
             <TextBlock Text="Введите дополнительное описание"/>
-            <TextBox x:Name="longDescriptionTextBox"/>
+            <TextBox Text="{Binding LongDescription}"/>
 
             <Button Content="Создать"
-                    Click="ButtonStart_Click"/>
+                    Command="{Binding StartCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

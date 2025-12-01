@@ -6,12 +6,17 @@
              xmlns:local="clr-namespace:ANDBIM.Revit.DS"
              mc:Ignorable="d" 
              Height="150" Width="400">
-    <Grid>
-        <StackPanel>
-            <TextBlock Text="Введите имя"/>
-            <TextBox x:Name="nameTextBox"/>
-            <Button Content="Создать"
-                    Click="ButtonStart_Click"/>
-        </StackPanel>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Введите имя"/>
+        <TextBox Text="{Binding Name}"
+                 Grid.Row="1"/>
+        <Button Content="Создать"
+                Command="{Binding StartCommand}"
+                Grid.Row="2"/>
     </Grid>
 </Window>
