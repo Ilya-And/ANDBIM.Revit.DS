@@ -67,6 +67,7 @@ namespace ANDBIM.Revit.DS
             vm.CloseRequest += (s, e) => Close();
 
             DataContext = vm;
+
         }
 
         //private void ButtonStart_Click(object sender, RoutedEventArgs e)
