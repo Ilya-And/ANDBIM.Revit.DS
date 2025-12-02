@@ -22,7 +22,7 @@ using System.Xml.Linq;
 
 namespace ANDBIM.Revit.DS.ViewModel
 {
-    internal class SetButtonParametersViewModel : INotifyPropertyChanged
+    public class SetButtonParametersViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,9 +38,32 @@ namespace ANDBIM.Revit.DS.ViewModel
 
         public string AssemblyPath { get; private set; }
 
+        public SetButtonParametersViewModel()
+        {
+        }
+
         public SetButtonParametersViewModel(ExternalCommandData commandData)
         {
             CommandData = commandData;
+
+            RibbonControl ribbon = Autodesk.Windows.ComponentManager.Ribbon;
+
+            // Iterate through the tabs to find the active one
+            foreach (RibbonTab tab in ribbon.Tabs)
+            {
+                if (tab.IsActive)
+                {
+                    foreach (Autodesk.Windows.RibbonPanel ribbonPanel in tab.Panels)
+                    {
+                        if (ribbonPanel.Source.Name != "ANDBIM.DS.Settings")
+                        {
+                            Panels.Add(ribbonPanel.Source.Name);
+                        }
+                    }
+                }
+            }
+
+            SelectedPanel = Panels.FirstOrDefault();
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var arrayStr = thisAssemblyPath.Split('\\').ToList();
@@ -99,7 +122,7 @@ namespace ANDBIM.Revit.DS.ViewModel
             }
         }
 
-        private List<string> _panels { get; set; }
+        private List<string> _panels { get; set; } = new List<string>();
         public List<string> Panels
         {
             get => _panels;
@@ -208,7 +231,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                                         pan.Name = panel.Name;
                                         pan.ButtonGroups.Add(new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>()
                                         {
-                                            new ViewButton("", "", $"{Description}", $"{LongDescription}", $"{ButtonName}")
+                                            new ViewButton(ImagePath, "", $"{Description}", $"{LongDescription}", $"{ButtonName}")
 
                                         }));
                                     }
@@ -236,7 +259,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                     var result = openFileDialog.ShowDialog();
 
                     if (result == true && openFileDialog.FileName != null 
-                    && (openFileDialog.FileName.Contains(".jpeg") || openFileDialog.FileName.Contains(".png")))
+                    && (openFileDialog.FileName.ToLower().Contains(".jpeg") || openFileDialog.FileName.ToLower().Contains(".png")))
                     {
                         ImagePath = openFileDialog.FileName;
 
@@ -303,14 +326,14 @@ namespace ANDBIM.Revit.DS.ViewModel
             JpegBitmapEncoder encoderJPEG = new JpegBitmapEncoder();
             var stream = new MemoryStream();
 
-            if (ImagePath.Contains(".jpeg"))
+            if (ImagePath.ToLower().Contains(".jpeg"))
             {
                 encoderJPEG.Frames.Add(BitmapFrame.Create(bitmapSource));
 
                 encoderJPEG.Save(stream);
                 stream.Position = 0;
             }
-            else if (ImagePath.Contains(".png"))
+            else if (ImagePath.ToLower().Contains(".png"))
             {
                 encoderPNG.Frames.Add(BitmapFrame.Create(bitmapSource));
 

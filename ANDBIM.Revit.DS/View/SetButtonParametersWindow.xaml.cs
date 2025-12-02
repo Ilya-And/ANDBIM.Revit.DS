@@ -38,14 +38,10 @@ namespace ANDBIM.Revit.DS
             InitializeComponent();
             CommandData = commandData;
 
-            string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
-            var arrayStr = thisAssemblyPath.Split('\\').ToList();
-            arrayStr.Remove(arrayStr[arrayStr.Count - 1]);
-            string folderPath = string.Join("\\", arrayStr.ToArray());
-            AssemblyPath = folderPath;
-
-            var vm = new SetButtonParametersViewModel(commandData);
+            SetButtonParametersViewModel vm = new SetButtonParametersViewModel(commandData);
             vm.CloseRequest += (s, e) => Close();
+
+            DataContext = vm;
         }
 
         //private void ButtonStart_Click(object sender, RoutedEventArgs e)

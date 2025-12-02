@@ -21,6 +21,7 @@
                 <TextBox Text="{Binding ImagePath}"
                          IsEnabled="False"/>
                 <Button Command="{Binding GetImageCommand}"
+                        Content="..."
                         Grid.Column="1"/>
             </Grid>
 
@@ -36,6 +37,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding ScriptPath}"/>
                 <Button Command="{Binding GetScriptCommand}"
+                        Content="..."
                         Grid.Column="1"/>
             </Grid>
 

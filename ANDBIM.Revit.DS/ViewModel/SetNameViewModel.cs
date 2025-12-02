@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace ANDBIM.Revit.DS.ViewModel
 {
-    internal class SetNameViewModel : INotifyPropertyChanged
+    public class SetNameViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
