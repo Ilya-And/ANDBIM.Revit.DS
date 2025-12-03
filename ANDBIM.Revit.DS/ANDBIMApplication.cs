@@ -1,8 +1,10 @@
-﻿using Autodesk.Revit.ApplicationServices;
+﻿using ANDBIM.Revit.DS.Model;
+using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ namespace ANDBIM.Revit.DS
     {
         //private static string ScriptsFolder = "D:\\Архив\\Scripts";
         public static string ScriptToRun = "";
+        public static string ButtonName = "";
         public static string TabRun = "";
         public static string PanelRun = "";
         public static List<ViewTab> CommandsList = new List<ViewTab>();
@@ -125,6 +128,19 @@ namespace ANDBIM.Revit.DS
 
                                     newRibbonButton.ToolTip = viewButtonGroup.Buttons[0].Description;
                                     newRibbonButton.LongDescription = viewButtonGroup.Buttons[0].LongDescription;
+
+                                    
+
+                                    string imagePath = viewButtonGroup.Buttons[0].ImagePath;
+
+                                    try
+                                    {
+                                        BitmapImage imgOriginal = new BitmapImage(new Uri(imagePath));
+
+                                        newRibbonButton.Image = ImageWorker.ResizeBitmapImage(imgOriginal, 16, 16, imagePath);
+                                        newRibbonButton.LargeImage = ImageWorker.ResizeBitmapImage(imgOriginal, 32, 32, imagePath);
+                                    }
+                                    catch { }
                                 }
 
                                 else
@@ -206,9 +222,28 @@ namespace ANDBIM.Revit.DS
             if (e.Item is null) return;
             try
             {
-                if (!e.Item.AutomationName.Contains("Test")) return;
-                //set our current graph based on the click on the ribbon item
-                ScriptToRun = $"{AssemblyPath}//{e.Item.AutomationName}.dyn";
+                ButtonName = e.Item.AutomationName;
+
+                var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
+
+                foreach (ViewTab viewTab in configList)
+                {
+                    foreach (ViewPanel panel in viewTab.Panels)
+                    {
+                        foreach (ViewButtonGroup viewButtonGroup in panel.ButtonGroups)
+                        {
+                            foreach (ViewButton viewButton in viewButtonGroup.Buttons)
+                            {
+                                if (viewButton.Name == e.Item.AutomationName)
+                                {
+                                    ScriptToRun = viewButton.ImagePath;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                //ScriptToRun = $"{AssemblyPath}//{e.Item.AutomationName}.dyn";
             }
             catch (Exception)
             {

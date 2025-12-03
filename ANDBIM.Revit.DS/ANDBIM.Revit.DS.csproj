@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ANDBIMApplication.cs" />
+    <Compile Include="Model\ImageWorker.cs" />
     <Compile Include="Model\RelayCommand.cs" />
     <Compile Include="Model\ViewButton.cs" />
     <Compile Include="Model\ViewButtonGroup.cs" />

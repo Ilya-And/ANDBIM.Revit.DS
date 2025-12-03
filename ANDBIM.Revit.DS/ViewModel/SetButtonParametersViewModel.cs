@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using ANDBIM.Revit.DS.Model;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using Microsoft.Win32;
@@ -267,8 +268,8 @@ namespace ANDBIM.Revit.DS.ViewModel
                         {
                             BitmapImage imgOriginal = new BitmapImage(new Uri(ImagePath));
 
-                            Image = ResizeBitmapImage(imgOriginal, 16, 16);
-                            LargeImage = ResizeBitmapImage(imgOriginal, 32, 32);
+                            Image = ImageWorker.ResizeBitmapImage(imgOriginal, 16, 16, ImagePath);
+                            LargeImage = ImageWorker.ResizeBitmapImage(imgOriginal, 32, 32, ImagePath);
                         }
                         catch { }
                     }
@@ -296,53 +297,53 @@ namespace ANDBIM.Revit.DS.ViewModel
             }
         }
 
-        public BitmapImage ResizeBitmapImage(BitmapImage original, int newWidth, int newHeight)
-        {
-            var scaledBitmap = new TransformedBitmap();
-            scaledBitmap.BeginInit();
-            scaledBitmap.Source = original;
+        //public BitmapImage ResizeBitmapImage(BitmapImage original, int newWidth, int newHeight)
+        //{
+        //    var scaledBitmap = new TransformedBitmap();
+        //    scaledBitmap.BeginInit();
+        //    scaledBitmap.Source = original;
 
-            // Создаем ScaleTransform
-            ScaleTransform scale = new ScaleTransform(
-                (double)newWidth / original.PixelWidth,
-                (double)newHeight / original.PixelHeight,
-                0, 0);
+        //    // Создаем ScaleTransform
+        //    ScaleTransform scale = new ScaleTransform(
+        //        (double)newWidth / original.PixelWidth,
+        //        (double)newHeight / original.PixelHeight,
+        //        0, 0);
 
-            scaledBitmap.Transform = scale;
-            scaledBitmap.EndInit();
+        //    scaledBitmap.Transform = scale;
+        //    scaledBitmap.EndInit();
 
-            // Конвертируем обратно в BitmapImage
-            BitmapImage result = new BitmapImage();
-            result.BeginInit();
-            result.StreamSource = BitmapSourceToStream(scaledBitmap);
-            result.EndInit();
+        //    // Конвертируем обратно в BitmapImage
+        //    BitmapImage result = new BitmapImage();
+        //    result.BeginInit();
+        //    result.StreamSource = BitmapSourceToStream(scaledBitmap, ImagePath);
+        //    result.EndInit();
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        private MemoryStream BitmapSourceToStream(BitmapSource bitmapSource)
-        {
-            PngBitmapEncoder encoderPNG = new PngBitmapEncoder();
-            JpegBitmapEncoder encoderJPEG = new JpegBitmapEncoder();
-            var stream = new MemoryStream();
+        //private MemoryStream BitmapSourceToStream(BitmapSource bitmapSource, string pathToImage)
+        //{
+        //    PngBitmapEncoder encoderPNG = new PngBitmapEncoder();
+        //    JpegBitmapEncoder encoderJPEG = new JpegBitmapEncoder();
+        //    var stream = new MemoryStream();
 
-            if (ImagePath.ToLower().Contains(".jpeg"))
-            {
-                encoderJPEG.Frames.Add(BitmapFrame.Create(bitmapSource));
+        //    if (ImagePath.ToLower().Contains(".jpeg"))
+        //    {
+        //        encoderJPEG.Frames.Add(BitmapFrame.Create(bitmapSource));
 
-                encoderJPEG.Save(stream);
-                stream.Position = 0;
-            }
-            else if (ImagePath.ToLower().Contains(".png"))
-            {
-                encoderPNG.Frames.Add(BitmapFrame.Create(bitmapSource));
+        //        encoderJPEG.Save(stream);
+        //        stream.Position = 0;
+        //    }
+        //    else if (ImagePath.ToLower().Contains(".png"))
+        //    {
+        //        encoderPNG.Frames.Add(BitmapFrame.Create(bitmapSource));
 
-                encoderPNG.Save(stream);
-                stream.Position = 0;
-            }
+        //        encoderPNG.Save(stream);
+        //        stream.Position = 0;
+        //    }
             
-            return stream;
-        }
+        //    return stream;
+        //}
 
         private Autodesk.Revit.UI.RibbonPanel GetPanelByName(string name)
         {

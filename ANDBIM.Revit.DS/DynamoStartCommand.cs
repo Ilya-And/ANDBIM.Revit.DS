@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using ANDBIM.Revit.DS.Model;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -13,6 +6,18 @@ using Autodesk.Windows;
 using Dynamo.Applications;
 using Dynamo.Applications.Models;
 using Dynamo.Models;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Configuration.Assemblies;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ANDBIM.Revit.DS
 {
@@ -56,11 +61,44 @@ namespace ANDBIM.Revit.DS
 
                 //var dsad = commandData.Application.ActiveAddInId;
 
-                MessageBox.Show(this.ToString());
-
                 if (!File.Exists(scriptPath))
                 {
                     message = $"Script file not found: {scriptPath}";
+
+                    var result = MessageBox.Show("Скрипт не найден!\nХотите обновить ссылку на скрипт?", "Ошибка", MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        var openFileDialog = new OpenFileDialog();
+                        var resultOpenFile = openFileDialog.ShowDialog();
+
+                        if (resultOpenFile == true && openFileDialog.FileName != null
+                        && openFileDialog.FileName.Contains(".dyn"))
+                        {
+                            var configList = JsonConvert.DeserializeObject<List<ViewTab>>(File.ReadAllText($"{ANDBIMApplication.AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json"));
+
+                            foreach (ViewTab viewTab in configList)
+                            {
+                                foreach (ViewPanel panel in viewTab.Panels)
+                                {
+                                    foreach (ViewButtonGroup viewButtonGroup in panel.ButtonGroups)
+                                    {
+                                        foreach (ViewButton viewButton in viewButtonGroup.Buttons)
+                                        {
+                                            if (viewButton.Name == ANDBIMApplication.ButtonName)
+                                            {
+                                                viewButton.ScriptPath = viewButton.ImagePath;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            File.WriteAllText($"{ANDBIMApplication.AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json", JsonConvert.SerializeObject(configList));
+                        }
+                    }
+
                     return Result.Failed;
                 }
 
