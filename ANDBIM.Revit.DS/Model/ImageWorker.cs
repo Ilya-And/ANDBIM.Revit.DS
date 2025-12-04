@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration.Assemblies;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -11,8 +13,27 @@ namespace ANDBIM.Revit.DS.Model
 {
     public static class ImageWorker
     {
-        public static BitmapImage ResizeBitmapImage(BitmapImage original, int newWidth, int newHeight, string imagePath)
+        public static BitmapImage ResizeBitmapImage(int newWidth, int newHeight, string imagePath)
         {
+            string fileName = imagePath.Split('\\').Last();
+
+            var arrayStr = imagePath.Split('\\').ToList();
+            arrayStr.Remove(arrayStr[arrayStr.Count - 1]);
+            string folderPath = string.Join("\\", arrayStr.ToArray());
+            //string folderPathToSave = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\ANDBIM.Revit.DS";
+
+            //if (Directory.Exists(folderPathToSave) == false)
+            //{
+            //    Directory.CreateDirectory(folderPathToSave);
+            //}
+
+            //if (File.Exists(Path.Combine(folderPathToSave, fileName)) == false)
+            //{
+            //    File.Copy(Path.Combine(folderPath, fileName), Path.Combine(folderPathToSave, fileName), true);
+            //}
+
+            BitmapImage original = new BitmapImage(new Uri(imagePath));
+
             var scaledBitmap = new TransformedBitmap();
             scaledBitmap.BeginInit();
             scaledBitmap.Source = original;

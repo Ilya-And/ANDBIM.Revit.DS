@@ -63,7 +63,7 @@ namespace ANDBIM.Revit.DS
 
                 if (!File.Exists(scriptPath))
                 {
-                    message = $"Script file not found: {scriptPath}";
+                    //message = $"Script file not found: {scriptPath}";
 
                     var result = MessageBox.Show("Скрипт не найден!\nХотите обновить ссылку на скрипт?", "Ошибка", MessageBoxButton.YesNo);
 
@@ -87,7 +87,7 @@ namespace ANDBIM.Revit.DS
                                         {
                                             if (viewButton.Name == ANDBIMApplication.ButtonName)
                                             {
-                                                viewButton.ScriptPath = viewButton.ImagePath;
+                                                viewButton.ScriptPath = viewButton.ScriptPath;
                                                 break;
                                             }
                                         }
@@ -201,7 +201,7 @@ namespace ANDBIM.Revit.DS
             }
             catch (Exception ex)
             {
-                message = ex.Message;
+                //message = ex.Message;
                 Autodesk.Revit.UI.TaskDialog.Show("Error", $"Failed to run script: {ex.Message}");
                 return Result.Failed;
             }

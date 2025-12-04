@@ -15,6 +15,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -232,7 +233,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                                         pan.Name = panel.Name;
                                         pan.ButtonGroups.Add(new ViewButtonGroup(ViewButtonGroupTypeEnum.StandartButton, new ObservableCollection<ViewButton>()
                                         {
-                                            new ViewButton(ImagePath, "", $"{Description}", $"{LongDescription}", $"{ButtonName}")
+                                            new ViewButton(ImagePath, ScriptPath, Description, LongDescription, ButtonName)
 
                                         }));
                                     }
@@ -266,10 +267,11 @@ namespace ANDBIM.Revit.DS.ViewModel
 
                         try
                         {
-                            BitmapImage imgOriginal = new BitmapImage(new Uri(ImagePath));
+                            //BitmapImage imgOriginal = new BitmapImage(new Uri(ImagePath));
 
-                            Image = ImageWorker.ResizeBitmapImage(imgOriginal, 16, 16, ImagePath);
-                            LargeImage = ImageWorker.ResizeBitmapImage(imgOriginal, 32, 32, ImagePath);
+                            Image = ImageWorker.ResizeBitmapImage(16, 16, ImagePath);
+                            Thread.Sleep(1000);
+                            LargeImage = ImageWorker.ResizeBitmapImage(32, 32, ImagePath);
                         }
                         catch { }
                     }

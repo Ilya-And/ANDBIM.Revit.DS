@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -119,28 +120,31 @@ namespace ANDBIM.Revit.DS
                             {
                                 if (viewButtonGroup.ButtonGroupType == ViewButtonGroupTypeEnum.StandartButton)
                                 {
+                                    string imagePath = viewButtonGroup.Buttons[0].ImagePath;
+
                                     PushButtonData buttonData = new PushButtonData($"{viewButtonGroup.Buttons[0].Name}",
                                                                     $"{viewButtonGroup.Buttons[0].Name}",
                                                                     thisAssemblyPath,
                                                                     "ANDBIM.Revit.DS.DynamoStartCommand");
+                                    try
+                                    {
+                                        //BitmapImage imgOriginal = new BitmapImage(new Uri(imagePath));
+
+                                        buttonData.Image = ImageWorker.ResizeBitmapImage(16, 16, imagePath);
+
+                                        Thread.Sleep(1000);
+
+                                        buttonData.LargeImage = ImageWorker.ResizeBitmapImage(32, 32, imagePath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        //MessageBox.Show($"{ex.Message}\n{ex.InnerException}\n{ex.StackTrace}");
+                                    }
 
                                     PushButton newRibbonButton = ribbonPanel.AddItem(buttonData) as PushButton;
 
                                     newRibbonButton.ToolTip = viewButtonGroup.Buttons[0].Description;
                                     newRibbonButton.LongDescription = viewButtonGroup.Buttons[0].LongDescription;
-
-                                    
-
-                                    string imagePath = viewButtonGroup.Buttons[0].ImagePath;
-
-                                    try
-                                    {
-                                        BitmapImage imgOriginal = new BitmapImage(new Uri(imagePath));
-
-                                        newRibbonButton.Image = ImageWorker.ResizeBitmapImage(imgOriginal, 16, 16, imagePath);
-                                        newRibbonButton.LargeImage = ImageWorker.ResizeBitmapImage(imgOriginal, 32, 32, imagePath);
-                                    }
-                                    catch { }
                                 }
 
                                 else
@@ -236,7 +240,7 @@ namespace ANDBIM.Revit.DS
                             {
                                 if (viewButton.Name == e.Item.AutomationName)
                                 {
-                                    ScriptToRun = viewButton.ImagePath;
+                                    ScriptToRun = viewButton.ScriptPath;
                                     break;
                                 }
                             }
