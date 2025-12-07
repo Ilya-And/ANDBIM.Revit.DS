@@ -153,23 +153,23 @@ namespace ANDBIM.Revit.DS
 
                     if (inputNodes != null && inputNodes.Count > 0)
                     {
-                        MainWindow mainWindow = new MainWindow(inputNodes, commandData);
+                        MainWindow mainWindow = new MainWindow(inputNodes, commandData, rdm, journalData);
                         mainWindow.ShowDialog();
                     }
 
 
                     // Передаем данные на входные ноды
-                    SetInputNodesData(inputNodes, commandData);
+                    //SetInputNodesData(inputNodes, commandData);
                 }
 
-                rdm.GetType().GetMethod("ForceRun").Invoke(rdm, new object[] { });
+                //rdm.GetType().GetMethod("ForceRun").Invoke(rdm, new object[] { });
 
 
-                DynamoRevitCommandData dynamoRevitCommandData = new DynamoRevitCommandData
-                {
-                    Application = uiApp,
-                    JournalData = journalData
-                };
+                //DynamoRevitCommandData dynamoRevitCommandData = new DynamoRevitCommandData
+                //{
+                //    Application = uiApp,
+                //    JournalData = journalData
+                //};
 
 
 

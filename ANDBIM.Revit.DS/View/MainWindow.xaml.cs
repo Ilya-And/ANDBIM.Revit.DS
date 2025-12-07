@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.UI;
+﻿using ANDBIM.Revit.DS.ViewModel;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,61 +22,66 @@ namespace ANDBIM.Revit.DS
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(List<object> nodes, ExternalCommandData commandData)
+        public MainWindow(List<object> nodes, ExternalCommandData commandData, object rdm, IDictionary<string, string> journalData)
         {
             InitializeComponent();
 
-            foreach (var node in nodes)
-            {
-                var nodeType = node.GetType();
+            var vm = new MainViewModel(nodes, commandData, rdm, journalData);
+            vm.CloseRequest += (s, e) => Close();
 
-                // Определяем тип ноды и устанавливаем данные соответствующим образом
-                if (nodeType.Name.Contains("CodeBlock"))
-                {
-                    TextBlock textBlock = new TextBlock();
-                    System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+            DataContext = vm;
 
-                    textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
-                    object v = node.GetType().GetProperty("Code").GetValue(node, null);
-                    textBox.Text = v.ToString();
+            //foreach (var node in nodes)
+            //{
+            //    var nodeType = node.GetType();
 
-                    stack.Children.Add(textBlock);
-                    stack.Children.Add(textBox);
-                }
-                else if (nodeType.Name.Contains("Number") || nodeType.Name.Contains("Integer") || nodeType.Name.Contains("Double"))
-        {
-                    TextBlock textBlock = new TextBlock();
-                    System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+            //    // Определяем тип ноды и устанавливаем данные соответствующим образом
+            //    if (nodeType.Name.Contains("CodeBlock"))
+            //    {
+            //        TextBlock textBlock = new TextBlock();
+            //        System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
-                    textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
-                    object v = node.GetType().GetProperty("Value").GetValue(node, null);
-                    textBox.Text = v.ToString();
+            //        textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
+            //        object v = node.GetType().GetProperty("Code").GetValue(node, null);
+            //        textBox.Text = v.ToString();
 
-                    stack.Children.Add(textBlock);
-                    stack.Children.Add(textBox);
-                }
-                else if (nodeType.Name.Contains("String"))
-                {
-                    TextBlock textBlock = new TextBlock();
-                    System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+            //        stack.Children.Add(textBlock);
+            //        stack.Children.Add(textBox);
+            //    }
+            //    else if (nodeType.Name.Contains("Number") || nodeType.Name.Contains("Integer") || nodeType.Name.Contains("Double"))
+            //    {
+            //        TextBlock textBlock = new TextBlock();
+            //        System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
-                    textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
-                    object v = node.GetType().GetProperty("Value").GetValue(node, null);
-                    textBox.Text = v.ToString();
+            //        textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
+            //        object v = node.GetType().GetProperty("Value").GetValue(node, null);
+            //        textBox.Text = v.ToString();
 
-                    stack.Children.Add(textBlock);
-                    stack.Children.Add(textBox);
-                }
-                //else if (nodeType.Name.Contains("Boolean"))
-                //{
-                //    SetBooleanNodeData(node);
-                //}
-                //else
-                //{
-                //    // Для неизвестных типов нодов пробуем универсальный подход
-                //    SetGenericNodeData(node, commandData);
-                //}
-            }
+            //        stack.Children.Add(textBlock);
+            //        stack.Children.Add(textBox);
+            //    }
+            //    else if (nodeType.Name.Contains("String"))
+            //    {
+            //        TextBlock textBlock = new TextBlock();
+            //        System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+
+            //        textBlock.Text = $"{node.GetType().GetProperty("Name")}:";
+            //        object v = node.GetType().GetProperty("Value").GetValue(node, null);
+            //        textBox.Text = v.ToString();
+
+            //        stack.Children.Add(textBlock);
+            //        stack.Children.Add(textBox);
+            //    }
+            //    //else if (nodeType.Name.Contains("Boolean"))
+            //    //{
+            //    //    SetBooleanNodeData(node);
+            //    //}
+            //    //else
+            //    //{
+            //    //    // Для неизвестных типов нодов пробуем универсальный подход
+            //    //    SetGenericNodeData(node, commandData);
+            //    //}
+            //}
         }
     }
 }
