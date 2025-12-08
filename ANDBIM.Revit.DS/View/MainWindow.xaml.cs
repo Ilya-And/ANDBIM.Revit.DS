@@ -83,5 +83,14 @@ namespace ANDBIM.Revit.DS
             //    //}
             //}
         }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

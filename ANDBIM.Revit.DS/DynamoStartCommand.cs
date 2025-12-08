@@ -387,11 +387,11 @@ namespace ANDBIM.Revit.DS
             else if (nodeType.Name.Contains("Boolean"))
             {
                 SetBooleanNodeData(node);
-            }
-            else
-            {
-                // Для неизвестных типов нодов пробуем универсальный подход
-                SetGenericNodeData(node, commandData);
+            //}
+            //else
+            //{
+            //    // Для неизвестных типов нодов пробуем универсальный подход
+            //    SetGenericNodeData(node, commandData);
             }
         }
 
@@ -422,32 +422,43 @@ namespace ANDBIM.Revit.DS
 
                 // Получаем все ноды в рабочем пространстве
                 var nodes = workspace.Nodes;
+                
 
                 foreach (var node in nodes)
                 {
-                    // Пробуем получить свойство IsInput через рефлексию
-                    var isInputProperty = node.GetType().GetProperty("IsInputNode");
-                    if (isInputProperty != null)
-                    {
-                        var isInputValue = isInputProperty.GetValue(node);
-                        if (isInputValue is bool && (bool)isInputValue)
-                        {
-                            inputNodes.Add(node);
-                        }
-                    }
-
-                    // Дополнительная проверка для определенных типов нодов
                     var nodeType = node.GetType();
-                    if (nodeType.Name.Contains("Input") || nodeType.Name.Contains("CodeBlock"))
+
+                    if (nodeType.Name.Contains("CodeBlock") 
+                        || nodeType.Name.Contains("Number") 
+                        || nodeType.Name.Contains("Integer") 
+                        || nodeType.Name.Contains("Double")
+                        || nodeType.Name.Contains("String")
+                        || nodeType.Name.Contains("Boolean"))
                     {
-                        // Для Code Block нодов проверяем другие свойства
-                        var hasInputProperty = nodeType.GetProperty("HasInput");
-                        if (hasInputProperty != null)
+                        // Пробуем получить свойство IsInput через рефлексию
+                        var isInputProperty = node.GetType().GetProperty("IsInputNode");
+                        if (isInputProperty != null)
                         {
-                            var hasInputValue = hasInputProperty.GetValue(node);
-                            if (hasInputValue is bool && (bool)hasInputValue)
+                            var isInputValue = isInputProperty.GetValue(node);
+                            if (isInputValue is bool && (bool)isInputValue)
                             {
                                 inputNodes.Add(node);
+                            }
+                        }
+
+                        // Дополнительная проверка для определенных типов нодов
+                        
+                        if (nodeType.Name.Contains("Input") || nodeType.Name.Contains("CodeBlock"))
+                        {
+                            // Для Code Block нодов проверяем другие свойства
+                            var hasInputProperty = nodeType.GetProperty("HasInput");
+                            if (hasInputProperty != null)
+                            {
+                                var hasInputValue = hasInputProperty.GetValue(node);
+                                if (hasInputValue is bool && (bool)hasInputValue)
+                                {
+                                    inputNodes.Add(node);
+                                }
                             }
                         }
                     }

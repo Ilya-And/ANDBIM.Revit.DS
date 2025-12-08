@@ -181,6 +181,15 @@
     <Compile Include="RibbonButtonCreatorCommand.cs" />
     <Compile Include="RibbonTabCreatorCommand.cs" />
     <Compile Include="DynamoStartCommand.cs" />
+    <Compile Include="Services\ANDBIMErrorMessageWindow.xaml.cs">
+      <DependentUpon>ANDBIMErrorMessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ANDBIMMessagePage.xaml.cs">
+      <DependentUpon>ANDBIMMessagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ANDBIMProgressBarWindow.xaml.cs">
+      <DependentUpon>ANDBIMProgressBarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\SetButtonParametersViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SetNameViewModel.cs" />
@@ -196,6 +205,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Services\ANDBIMErrorMessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Services\ANDBIMMessagePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Services\ANDBIMProgressBarWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Services\ANDBIMWindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

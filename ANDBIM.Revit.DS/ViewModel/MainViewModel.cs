@@ -312,7 +312,7 @@ namespace ANDBIM.Revit.DS.ViewModel
             //{
             //    // Для неизвестных типов нодов пробуем универсальный подход
             //    SetGenericNodeData(node.Node, commandData);
-            //}
+            }
         }
 
         private void SetInputNodesData(ObservableCollection<NodeWorker> inputNodes, ExternalCommandData commandData)

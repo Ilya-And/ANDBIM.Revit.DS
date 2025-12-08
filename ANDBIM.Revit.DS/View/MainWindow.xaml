@@ -4,34 +4,91 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ANDBIM.Revit.DS"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             WindowStyle="None"
+             Background="Transparent"
+             AllowsTransparency="True"
+             MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+             WindowStartupLocation="CenterScreen"
              Height="300" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ANDBIM.Revit.DS;component/Services/ANDBIMWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CornerRadius="7"
+                  CaptionHeight="0"
+                  GlassFrameThickness="0"
+                  ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <!--<StackPanel x:Name="stack"/>-->
-        <ListView ItemsSource="{Binding NodeWorkerList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+        <Border Background="WhiteSmoke"
+            CornerRadius="7"
+            Grid.RowSpan="2"
+            BorderThickness="1"
+            BorderBrush="Black"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="WhiteSmoke"
+            CornerRadius="7,7,0,0"
+            BorderThickness="1"
+            BorderBrush="Black" Grid.ColumnSpan="3"/>
+            <Button Grid.Column="2"
+                Content="⨉"
+                Style="{StaticResource ANDBIMCloseButtonStyle}"
+                Margin="5"
+                Click="CloseButtonClick"
+                VerticalContentAlignment="Center"/>
+            <!--<Image Source="pack://application:,,,/ANDBIM.Revit.DS;component/Resources/ANDBIM_LOGO.ico"
+               Margin="7"/>-->
+            <TextBlock x:Name="WindowName"
+                   Grid.Column="1"
+                   Text="Входные параметры"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding NodeWorkerList}"
+                      Style="{StaticResource ANDBIMListBoxStyle}"
+                      BorderThickness="0"
+                      Margin="2"
+                      ItemContainerStyle="{StaticResource ANDBIMListBoxItemNotSelected}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Name}"
-                                   HorizontalAlignment="Center"/>
-                        <TextBox Text="{Binding Value}"
-                                 Grid.Column="1"
-                                 HorizontalAlignment="Center"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Grid.Row="1"
-                Content="Выполнить"
-                Command="{Binding StartCommand}"/>
+                            <TextBlock Text="{Binding Name}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBox Text="{Binding Value}"
+                                     Grid.Column="1"
+                                     HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="1"
+                    Style="{StaticResource ANDBIMButtonStyle}"
+                    Content="Выполнить"
+                    Command="{Binding StartCommand}"/>
+        </Grid>
     </Grid>
 </Window>
