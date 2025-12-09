@@ -11,7 +11,7 @@
              WindowStartupLocation="CenterScreen"
              SizeToContent="Height"
              WindowStyle="None"
-             MinHeight="400" MinWidth="300">
+             MinHeight="400" MinWidth="300" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
