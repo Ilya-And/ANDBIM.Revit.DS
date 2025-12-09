@@ -155,6 +155,23 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="Border" x:Key="ANDBIMBorderStyle">
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#a0cee3"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="20"
+                              Opacity="0.6"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="{x:Type TextBox}" x:Key="ANDBIMTextBoxStyle">
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="Background" Value="White"/>
@@ -324,12 +341,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightGray"/>
+                            <Setter Property="Background" Value="White"/>
                             <Setter Property="BorderBrush" Value="Gray"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="LightGray"/>
-                            <Setter Property="BorderBrush" Value="Gray"/>
+                            <Setter Property="Background" Value="#a0cee3"/>
+                            <Setter Property="BorderBrush" Value="#a0cee3"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -538,7 +555,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ListBoxItem}" x:Key="ANDBIMListBoxItemNotSelected">
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ANDBIMListBoxItemWithoutBorder">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -546,7 +563,32 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="5">
-                        <ContentPresenter Margin="3" HorizontalAlignment="Left"/>
+                        <ContentPresenter Margin="3"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ANDBIMListBoxItemWithBorder">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+                        <ContentPresenter Margin="3"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -555,12 +597,20 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="White"/>
-                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <!--<Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="5"
+                                                      Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
     </Style>
 
     <Style x:Key="ANDBIMListBoxStyle" TargetType="{x:Type ListBox}">

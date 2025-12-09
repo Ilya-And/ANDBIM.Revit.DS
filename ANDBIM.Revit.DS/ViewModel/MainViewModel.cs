@@ -60,7 +60,7 @@ namespace ANDBIM.Revit.DS.ViewModel
 
                 NodeWorker nodeWorker = new NodeWorker();
                 nodeWorker.Node = node as Dynamo.Graph.Nodes.NodeModel;
-                nodeWorker.Name = $"{nodeWorker.Node.Name}:";//$"{node.GetType().GetProperty("Name")}_{node}:";
+                nodeWorker.Name = $"{nodeWorker.Node.Name}";//$"{node.GetType().GetProperty("Name")}_{node}:";
 
                 // Определяем тип ноды и устанавливаем данные соответствующим образом
                 if (nodeType.Name.Contains("CodeBlock"))

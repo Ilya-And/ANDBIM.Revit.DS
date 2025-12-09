@@ -4,51 +4,145 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ANDBIM.Revit.DS"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             Background="Transparent"
+             AllowsTransparency="True"
+             MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+             WindowStartupLocation="CenterScreen"
              SizeToContent="Height"
-             Height="300" Width="400">
+             WindowStyle="None"
+             MinHeight="400" MinWidth="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ANDBIM.Revit.DS;component/Services/ANDBIMWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CornerRadius="7"
+              CaptionHeight="0"
+              GlassFrameThickness="0"
+              ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
     <Grid>
-        <StackPanel>
-            <TextBlock Text="Введите имя"/>
-            <TextBox Text="{Binding ButtonName}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Border Background="White"
+                CornerRadius="7"
+                Grid.RowSpan="14"
+                BorderThickness="1"
+                BorderBrush="Black"/>   
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="WhiteSmoke"
+                    CornerRadius="7,7,0,0"
+                    BorderThickness="1"
+                    BorderBrush="Black" Grid.ColumnSpan="3"/>
+            <Button Grid.Column="2"
+                    Content="⨉"
+                    Style="{StaticResource ANDBIMCloseButtonStyle}"
+                    Margin="5"
+                    Click="CloseButtonClick"
+                    VerticalContentAlignment="Center"/>
+            <!--<Image Source="pack://application:,,,/ANDBIM.Revit.DS;component/Resources/ANDBIM_LOGO.ico"
+       Margin="7"/>-->
+            <TextBlock x:Name="WindowName"
+                       Grid.Column="1"
+                       Text="Создание кнопки"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="1"
+              Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Введите имя:"
+                       VerticalAlignment="Center"/>
+            <TextBox Text="{Binding ButtonName}"
+                     Style="{StaticResource ANDBIMTextBoxStyle}"
+                     Grid.Row="1"/>
 
-            <TextBlock Text="Выберите изображение"/>
-            <Grid>
+            <TextBlock Text="Выберите изображение:"
+                       VerticalAlignment="Center"
+                        Grid.Row="2"/>
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding ImagePath}"
-                         IsEnabled="False"/>
+                         Style="{StaticResource ANDBIMTextBoxStyle}"
+                         Margin="0,0,5,0"
+                        IsEnabled="False"/>
                 <Button Command="{Binding GetImageCommand}"
                         Content="..."
+                        Style="{StaticResource ANDBIMButtonStyle}"
                         Grid.Column="1"/>
             </Grid>
 
-            <TextBlock Text="Выберите панель"/>
+            <TextBlock Text="Выберите панель:"
+                       VerticalAlignment="Center"
+                        Grid.Row="4"/>
             <ComboBox ItemsSource="{Binding Panels}"
-                      SelectedItem="{Binding SelectedPanel}"/>
+                      SelectedItem="{Binding SelectedPanel}"
+                      Style="{StaticResource ANDBIMComboboxStyle}"
+                      Grid.Row="5"/>
 
-            <TextBlock Text="Выберите скрипт"/>
-            <Grid>
+            <TextBlock Text="Выберите скрипт:"
+                       VerticalAlignment="Center"
+                        Grid.Row="6"/>
+            <Grid Grid.Row="7">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding ScriptPath}"/>
+                <TextBox Text="{Binding ScriptPath}"
+                         Margin="0,0,5,0"
+                         Style="{StaticResource ANDBIMTextBoxStyle}"
+                        IsEnabled="False"/>
                 <Button Command="{Binding GetScriptCommand}"
                         Content="..."
+                        Style="{StaticResource ANDBIMButtonStyle}"
                         Grid.Column="1"/>
             </Grid>
 
-            <TextBlock Text="Введите описание"/>
-            <TextBox Text="{Binding Description}"/>
+            <TextBlock Text="Введите описание:"
+                       VerticalAlignment="Center"
+                        Grid.Row="8"/>
+            <TextBox Text="{Binding Description}"
+                     Style="{StaticResource ANDBIMTextBoxStyle}"
+                        Grid.Row="9"/>
 
-            <TextBlock Text="Введите дополнительное описание"/>
-            <TextBox Text="{Binding LongDescription}"/>
-
-            <Button Content="Создать"
-                    Command="{Binding StartCommand}"/>
-        </StackPanel>
+            <TextBlock Text="Введите дополнительное описание:"
+                       VerticalAlignment="Center"
+                        Grid.Row="10"/>
+            <TextBox Text="{Binding LongDescription}"
+                     Style="{StaticResource ANDBIMTextBoxStyle}"
+                    Grid.Row="11"/>
+        </Grid>
+        <Button Content="Создать"
+                Command="{Binding StartCommand}"
+                Style="{StaticResource ANDBIMButtonStyle}"
+                Grid.Row="2"/>
     </Grid>
 </Window>
