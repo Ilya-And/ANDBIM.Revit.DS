@@ -245,6 +245,8 @@ namespace ANDBIM.Revit.DS.ViewModel
                     }
 
                     File.WriteAllText($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json", JsonConvert.SerializeObject(configList));
+
+                    RaiseCloseRequest();
                 });
             }
         }
