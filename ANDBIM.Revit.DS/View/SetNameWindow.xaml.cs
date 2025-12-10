@@ -32,6 +32,7 @@ namespace ANDBIM.Revit.DS
         public ExternalCommandData CommandData;
         public bool IsPanel = false;
         private string TabName = "";
+        public string TitleText = "Создание вкладки";
         public string AssemblyPath { get; private set; }
         public SetNameWindow(ExternalCommandData commandData, string tabName)
         {
@@ -39,6 +40,7 @@ namespace ANDBIM.Revit.DS
             CommandData = commandData;
             IsPanel = true;
             TabName = tabName;
+            TitleText = "Создание вкладки";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var arrayStr = thisAssemblyPath.Split('\\').ToList();
@@ -56,6 +58,7 @@ namespace ANDBIM.Revit.DS
         {
             InitializeComponent();
             CommandData = commandData;
+            TitleText = "Создание панели инструментов";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var arrayStr = thisAssemblyPath.Split('\\').ToList();
@@ -69,6 +72,14 @@ namespace ANDBIM.Revit.DS
             DataContext = vm;
 
         }
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
         //private void ButtonStart_Click(object sender, RoutedEventArgs e)
         //{
@@ -76,7 +87,7 @@ namespace ANDBIM.Revit.DS
         //    {
         //        CreatePanel(TabName, nameTextBox.Text);
 
-                
+
         //    }
 
         //    else

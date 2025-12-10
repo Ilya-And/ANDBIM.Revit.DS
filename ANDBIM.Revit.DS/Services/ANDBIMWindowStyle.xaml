@@ -135,8 +135,10 @@
                 </Setter>
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect BlurRadius="17"
-                                  Opacity="0.5"/>
+                        <DropShadowEffect BlurRadius="15"
+                                          Opacity="0.3"
+                                          Direction="45"
+                                          ShadowDepth="0"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -144,7 +146,9 @@
                 <Setter Property="Effect">
                     <Setter.Value>
                         <DropShadowEffect BlurRadius="7"
-                                  Opacity="0.1"/>
+                                          Opacity="0.3"
+                                          Direction="45"
+                                          ShadowDepth="0"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>

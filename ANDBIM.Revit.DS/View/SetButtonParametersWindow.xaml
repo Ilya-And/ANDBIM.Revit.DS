@@ -11,7 +11,7 @@
              WindowStartupLocation="CenterScreen"
              SizeToContent="Height"
              WindowStyle="None"
-             MinHeight="400" MinWidth="300" >
+             MinHeight="400" MinWidth="300" Width="300">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -63,17 +63,17 @@
         <Grid Grid.Row="1"
               Margin="5">
             <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="20"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Text="Введите имя:"
@@ -130,15 +130,19 @@
                        VerticalAlignment="Center"
                         Grid.Row="8"/>
             <TextBox Text="{Binding Description}"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
                      Style="{StaticResource ANDBIMTextBoxStyle}"
-                        Grid.Row="9"/>
+                     Grid.Row="9"/>
 
             <TextBlock Text="Введите дополнительное описание:"
                        VerticalAlignment="Center"
-                        Grid.Row="10"/>
+                       Grid.Row="10"/>
             <TextBox Text="{Binding LongDescription}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
                      Style="{StaticResource ANDBIMTextBoxStyle}"
-                    Grid.Row="11"/>
+                     Grid.Row="11"/>
         </Grid>
         <Button Content="Создать"
                 Command="{Binding StartCommand}"

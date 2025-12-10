@@ -40,6 +40,7 @@ namespace ANDBIM.Revit.DS.ViewModel
             CommandData = commandData;
             IsPanel = true;
             TabName = tabName;
+            TitleText = "Создание панели инструментов";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var arrayStr = thisAssemblyPath.Split('\\').ToList();
@@ -51,6 +52,7 @@ namespace ANDBIM.Revit.DS.ViewModel
         public SetNameViewModel(ExternalCommandData commandData)
         {
             CommandData = commandData;
+            TitleText = "Создание вкладки";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             var arrayStr = thisAssemblyPath.Split('\\').ToList();
@@ -70,6 +72,17 @@ namespace ANDBIM.Revit.DS.ViewModel
             }
         }
 
+        private string _titleText { get; set; } = "Создание вкладки";
+        public string TitleText
+        {
+            get => _titleText;
+            set
+            {
+                _titleText = value; ;
+                OnPropertyChanged("TitleText");
+            }
+        }
+
         private RelayCommand _startCommand;
 
         public RelayCommand StartCommand
@@ -82,12 +95,14 @@ namespace ANDBIM.Revit.DS.ViewModel
                     {
                         CreatePanel(TabName, Name);
 
-
+                        RaiseCloseRequest();
                     }
 
                     else
                     {
                         CreateTab(Name);
+
+                        RaiseCloseRequest();
                     }
                 });
             }
