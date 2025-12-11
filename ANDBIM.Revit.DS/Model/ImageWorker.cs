@@ -25,7 +25,7 @@ namespace ANDBIM.Revit.DS.Model
             //if (Directory.Exists(folderPathToSave) == false)
             //{
             //    Directory.CreateDirectory(folderPathToSave);
-            //}
+            //} 
 
             //if (File.Exists(Path.Combine(folderPathToSave, fileName)) == false)
             //{

@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using ANDBIM.Revit.DS.Services;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using Newtonsoft.Json;
@@ -165,7 +166,10 @@ namespace ANDBIM.Revit.DS.ViewModel
 
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось создать вкладку:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
+                ANDBIMErrorMessageWindow aNDBIMErrorMessageWindow = new ANDBIMErrorMessageWindow($"Не удалось создать вкладку:\n{ex.Message}\n{ex.StackTrace}");
+                RaiseCloseRequest();
+                aNDBIMErrorMessageWindow.ShowDialog();
+                //MessageBox.Show($"Не удалось создать вкладку:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
             }
         }
 
@@ -200,7 +204,9 @@ namespace ANDBIM.Revit.DS.ViewModel
 
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
+                ANDBIMErrorMessageWindow aNDBIMErrorMessageWindow = new ANDBIMErrorMessageWindow($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}");
+                aNDBIMErrorMessageWindow.ShowDialog();
+                //MessageBox.Show($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
                 return null;
             }
         }

@@ -184,8 +184,8 @@
     <Compile Include="Services\ANDBIMErrorMessageWindow.xaml.cs">
       <DependentUpon>ANDBIMErrorMessageWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ANDBIMMessagePage.xaml.cs">
-      <DependentUpon>ANDBIMMessagePage.xaml</DependentUpon>
+    <Compile Include="Services\ANDBIMMessageWindow.xaml.cs">
+      <DependentUpon>ANDBIMMessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ANDBIMProgressBarWindow.xaml.cs">
       <DependentUpon>ANDBIMProgressBarWindow.xaml</DependentUpon>
@@ -209,7 +209,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Services\ANDBIMMessagePage.xaml">
+    <Page Include="Services\ANDBIMMessageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

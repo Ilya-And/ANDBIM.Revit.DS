@@ -18,9 +18,9 @@ namespace ANDBIM.Revit.DS.Services
     /// <summary>
     /// Логика взаимодействия для ANDBIMMessagePage.xaml
     /// </summary>
-    public partial class ANDBIMMessagePage : Page
+    public partial class ANDBIMMessageWindow : Window
     {
-        public ANDBIMMessagePage(string messageText)
+        public ANDBIMMessageWindow(string messageText)
         {
             InitializeComponent();
 

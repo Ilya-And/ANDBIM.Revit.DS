@@ -1,4 +1,5 @@
 ﻿using ANDBIM.Revit.DS.Model;
+using ANDBIM.Revit.DS.Services;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
@@ -275,7 +276,12 @@ namespace ANDBIM.Revit.DS.ViewModel
                             Thread.Sleep(1000);
                             LargeImage = ImageWorker.ResizeBitmapImage(32, 32, ImagePath);
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            ANDBIMErrorMessageWindow aNDBIMErrorMessageWindow = new ANDBIMErrorMessageWindow($"Не удалось загрузить изображение:\n{ex.Message}\n{ex.StackTrace}");
+                            
+                            aNDBIMErrorMessageWindow.ShowDialog();
+                        }
                     }
                 });
             }
@@ -296,6 +302,12 @@ namespace ANDBIM.Revit.DS.ViewModel
                     && openFileDialog.FileName.Contains(".dyn"))
                     {
                         ScriptPath = openFileDialog.FileName;
+                    }
+                    else
+                    {
+                        ANDBIMErrorMessageWindow aNDBIMErrorMessageWindow = new ANDBIMErrorMessageWindow($"Не удалось загрузить скрипт!\nПопробуйте другой файл.");
+                        
+                        aNDBIMErrorMessageWindow.ShowDialog();
                     }
                 });
             }
@@ -422,7 +434,10 @@ namespace ANDBIM.Revit.DS.ViewModel
 
             catch (Exception ex)
             {
-                MessageBox.Show($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
+                ANDBIMErrorMessageWindow aNDBIMErrorMessageWindow = new ANDBIMErrorMessageWindow($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}");
+                RaiseCloseRequest();
+                aNDBIMErrorMessageWindow.ShowDialog();
+                //MessageBox.Show($"Не удалось создать панель:\n{ex.Message}\n{ex.StackTrace}", "Ошибка!");
                 return null;
             }
         }
