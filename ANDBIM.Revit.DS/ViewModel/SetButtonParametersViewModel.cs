@@ -272,9 +272,9 @@ namespace ANDBIM.Revit.DS.ViewModel
                         {
                             //BitmapImage imgOriginal = new BitmapImage(new Uri(ImagePath));
 
-                            Image = ImageWorker.ResizeBitmapImage(16, 16, ImagePath);
-                            Thread.Sleep(1000);
                             LargeImage = ImageWorker.ResizeBitmapImage(32, 32, ImagePath);
+                            Thread.Sleep(1000);
+                            Image = ImageWorker.ResizeBitmapImage(16, 16, ImagePath);
                         }
                         catch (Exception ex)
                         {

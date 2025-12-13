@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ANDBIM.Revit.DS.ViewModel
 {
@@ -123,6 +124,18 @@ namespace ANDBIM.Revit.DS.ViewModel
                                                                         "Создать панель",
                                                                         Assembly.GetExecutingAssembly().Location,
                                                                         "ANDBIM.Revit.DS.RibbonPanelCreatorCommand");
+
+                BitmapImage buttonDataAddButtonImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateButton_16.ico"));
+                BitmapImage buttonDataAddButtonImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateButton.ico"));
+
+                buttonDataAddButton.LargeImage = buttonDataAddButtonImg;
+                buttonDataAddButton.Image = buttonDataAddButtonImg16;
+
+                BitmapImage buttonDataAddPanelImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreatePanel_16.ico"));
+                BitmapImage buttonDataAddPanelImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreatePanel.ico"));
+
+                buttonDataAddPanel.LargeImage = buttonDataAddPanelImg;
+                buttonDataAddPanel.Image = buttonDataAddPanelImg16;
 
                 Autodesk.Revit.UI.RibbonPanel panel = CreatePanel(tabName, "ANDBIM.DS.Settings");
 

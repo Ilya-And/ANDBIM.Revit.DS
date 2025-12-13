@@ -78,9 +78,19 @@ namespace ANDBIM.Revit.DS
 
                 PushButton newButtonAddTab = andbimPanel.AddItem(buttonDataAddTab) as PushButton;
                 newButtonAddTab.ToolTip = "Создание пользовательской вкладки";
+                BitmapImage newButtonAddTabImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateTab_16.ico"));
+                BitmapImage newButtonAddTabImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateTab.ico"));
+                
+                newButtonAddTab.LargeImage = newButtonAddTabImg;
+                newButtonAddTab.Image = newButtonAddTabImg16;
 
                 PushButton newButtonManagePanelVisible = andbimPanel.AddItem(buttonDataManagePanelVisible) as PushButton;
                 newButtonManagePanelVisible.ToolTip = "Включение/отключение панелей управления на созданных вкладках";
+                BitmapImage newButtonManagePanelVisibleImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/ManagePanels_16.ico"));
+                BitmapImage newButtonManagePanelVisibleImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/ManagePanels.ico"));
+
+                newButtonManagePanelVisible.LargeImage = newButtonManagePanelVisibleImg;
+                newButtonManagePanelVisible.Image = newButtonManagePanelVisibleImg16;
 
                 bool isExist = File.Exists($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
 
@@ -106,6 +116,18 @@ namespace ANDBIM.Revit.DS
                                                                                 "Создать панель",
                                                                                 Assembly.GetExecutingAssembly().Location,
                                                                                 "ANDBIM.Revit.DS.RibbonPanelCreatorCommand");
+
+                        BitmapImage buttonDataAddButtonImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateButton_16.ico"));
+                        BitmapImage buttonDataAddButtonImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreateButton.ico"));
+
+                        buttonDataAddButton.LargeImage = buttonDataAddButtonImg;
+                        buttonDataAddButton.Image = buttonDataAddButtonImg16;
+
+                        BitmapImage buttonDataAddPanelImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreatePanel_16.ico"));
+                        BitmapImage buttonDataAddPanelImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/CreatePanel.ico"));
+
+                        buttonDataAddPanel.LargeImage = buttonDataAddPanelImg;
+                        buttonDataAddPanel.Image = buttonDataAddPanelImg16;
 
                         settingsPanel.AddItem(buttonDataAddButton);
                         settingsPanel.AddItem(buttonDataAddPanel);

@@ -52,8 +52,8 @@
                     Margin="5"
                     Click="CloseButtonClick"
                     VerticalContentAlignment="Center"/>
-            <!--<Image Source="pack://application:,,,/ANDBIM.Revit.DS;component/Resources/ANDBIM_LOGO.ico"
-       Margin="7"/>-->
+            <Image Source="pack://application:,,,/ANDBIM.Revit.DS;component/Resources/LOGO_прозрачный фон.png"
+       Margin="7"/>
             <TextBlock x:Name="WindowName"
                        Grid.Column="1"
                        Text="Создание кнопки"

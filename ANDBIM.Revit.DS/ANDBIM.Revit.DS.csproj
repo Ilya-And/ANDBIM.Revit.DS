@@ -177,6 +177,11 @@
     <Compile Include="Model\ViewPanel.cs" />
     <Compile Include="Model\ViewTab.cs" />
     <Compile Include="ManagePanelsVisibleCommand.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RibbonPanelCreatorCommand.cs" />
     <Compile Include="RibbonButtonCreatorCommand.cs" />
     <Compile Include="RibbonTabCreatorCommand.cs" />
@@ -237,6 +242,38 @@
   <ItemGroup>
     <None Include="ANDBIM.Revit.DS.addin" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LOGO_прозрачный фон.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreateButton.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreateButton_16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreatePanel.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreatePanel_16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreateTab.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreateTab_16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ManagePanels.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ManagePanels_16.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
