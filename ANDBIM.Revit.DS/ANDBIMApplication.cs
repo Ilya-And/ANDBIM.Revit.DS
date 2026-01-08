@@ -75,6 +75,10 @@ namespace ANDBIM.Revit.DS
                                                                         "Панели\nуправления",
                                                                         thisAssemblyPath,
                                                                         "ANDBIM.Revit.DS.ManagePanelsVisibleCommand");
+                PushButtonData buttonDataRemoveElements = new PushButtonData("Удалить\nэлементы",
+                                                                        "Удалить\nэлементы",
+                                                                        thisAssemblyPath,
+                                                                        "ANDBIM.Revit.DS.RemoveElementCommand");
 
                 PushButton newButtonAddTab = andbimPanel.AddItem(buttonDataAddTab) as PushButton;
                 newButtonAddTab.ToolTip = "Создание пользовательской вкладки";
@@ -91,6 +95,9 @@ namespace ANDBIM.Revit.DS
 
                 newButtonManagePanelVisible.LargeImage = newButtonManagePanelVisibleImg;
                 newButtonManagePanelVisible.Image = newButtonManagePanelVisibleImg16;
+
+                PushButton newButtonRemoveElements = andbimPanel.AddItem(buttonDataRemoveElements) as PushButton;
+                newButtonRemoveElements.ToolTip = "Удаление созданных вкладок, панелей инструментов и кнопок";
 
                 bool isExist = File.Exists($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
 

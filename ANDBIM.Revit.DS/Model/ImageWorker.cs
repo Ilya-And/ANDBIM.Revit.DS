@@ -62,7 +62,7 @@ namespace ANDBIM.Revit.DS.Model
             JpegBitmapEncoder encoderJPEG = new JpegBitmapEncoder();
             var stream = new MemoryStream();
 
-            if (pathToImage.ToLower().Contains(".jpeg"))
+            if (pathToImage.ToLower().Contains(".jpeg") || pathToImage.ToLower().Contains(".jpg"))
             {
                 encoderJPEG.Frames.Add(BitmapFrame.Create(bitmapSource));
 

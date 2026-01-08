@@ -21,6 +21,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'R2021|AnyCPU' ">
     <OutputPath>bin\R2021\</OutputPath>
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="RibbonPanelCreatorCommand.cs" />
     <Compile Include="RibbonButtonCreatorCommand.cs" />
+    <Compile Include="RemoveElementCommand.cs" />
     <Compile Include="RibbonTabCreatorCommand.cs" />
     <Compile Include="DynamoStartCommand.cs" />
     <Compile Include="Services\ANDBIMErrorMessageWindow.xaml.cs">
@@ -197,6 +199,7 @@
     </Compile>
     <Compile Include="ViewModel\SetButtonParametersViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\RemoveElementViewModel.cs" />
     <Compile Include="ViewModel\SetNameViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -204,6 +207,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\SetButtonParametersWindow.xaml.cs">
       <DependentUpon>SetButtonParametersWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RemoveElementWindow.xaml.cs">
+      <DependentUpon>RemoveElementWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SetNameWindow.xaml.cs">
       <DependentUpon>SetNameWindow.xaml</DependentUpon>
@@ -231,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SetButtonParametersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\RemoveElementWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -264,7 +264,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                     var result = openFileDialog.ShowDialog();
 
                     if (result == true && openFileDialog.FileName != null 
-                    && (openFileDialog.FileName.ToLower().Contains(".jpeg") || openFileDialog.FileName.ToLower().Contains(".png")))
+                    && (openFileDialog.FileName.ToLower().Contains(".jpeg") || openFileDialog.FileName.ToLower().Contains(".jpg") || openFileDialog.FileName.ToLower().Contains(".png")))
                     {
                         ImagePath = openFileDialog.FileName;
 

@@ -157,19 +157,22 @@ namespace ANDBIM.Revit.DS
                         mainWindow.ShowDialog();
                     }
 
+                    else
+                    {
+                        rdm.GetType().GetMethod("ForceRun").Invoke(rdm, new object[] { });
 
+
+                        DynamoRevitCommandData dynamoRevitCommandData = new DynamoRevitCommandData
+                        {
+                            Application = uiApp,
+                            JournalData = journalData
+                        };
+                    }
                     // Передаем данные на входные ноды
                     //SetInputNodesData(inputNodes, commandData);
                 }
 
-                //rdm.GetType().GetMethod("ForceRun").Invoke(rdm, new object[] { });
-
-
-                //DynamoRevitCommandData dynamoRevitCommandData = new DynamoRevitCommandData
-                //{
-                //    Application = uiApp,
-                //    JournalData = journalData
-                //};
+                
 
 
 
@@ -427,6 +430,7 @@ namespace ANDBIM.Revit.DS
                 foreach (var node in nodes)
                 {
                     var nodeType = node.GetType();
+                    var asNodeModel = node as Dynamo.Graph.Nodes.NodeModel;
 
                     if (nodeType.Name.Contains("CodeBlock") 
                         || nodeType.Name.Contains("Number") 
@@ -436,31 +440,33 @@ namespace ANDBIM.Revit.DS
                         || nodeType.Name.Contains("Boolean"))
                     {
                         // Пробуем получить свойство IsInput через рефлексию
-                        var isInputProperty = node.GetType().GetProperty("IsInputNode");
-                        if (isInputProperty != null)
+                        //var isInputProperty = node.GetType().GetProperty("IsInputNode");
+                        var isInputProperty = node.IsSetAsInput;
+                        if (isInputProperty)
                         {
-                            var isInputValue = isInputProperty.GetValue(node);
-                            if (isInputValue is bool && (bool)isInputValue)
-                            {
-                                inputNodes.Add(node);
-                            }
+                            inputNodes.Add(node);
+
+                            //var isInputValue = isInputProperty.GetValue(node);
+                            //if (isInputValue is bool && (bool)isInputValue)
+                            //{
+                            //}
                         }
 
-                        // Дополнительная проверка для определенных типов нодов
+                        //// Дополнительная проверка для определенных типов нодов
                         
-                        if (nodeType.Name.Contains("Input") || nodeType.Name.Contains("CodeBlock"))
-                        {
-                            // Для Code Block нодов проверяем другие свойства
-                            var hasInputProperty = nodeType.GetProperty("HasInput");
-                            if (hasInputProperty != null)
-                            {
-                                var hasInputValue = hasInputProperty.GetValue(node);
-                                if (hasInputValue is bool && (bool)hasInputValue)
-                                {
-                                    inputNodes.Add(node);
-                                }
-                            }
-                        }
+                        //if (nodeType.Name.Contains("Input") || nodeType.Name.Contains("CodeBlock"))
+                        //{
+                        //    // Для Code Block нодов проверяем другие свойства
+                        //    var hasInputProperty = nodeType.GetProperty("HasInput");
+                        //    if (hasInputProperty != null)
+                        //    {
+                        //        var hasInputValue = hasInputProperty.GetValue(node);
+                        //        if (hasInputValue is bool && (bool)hasInputValue)
+                        //        {
+                        //            inputNodes.Add(node);
+                        //        }
+                        //    }
+                        //}
                     }
                 }
             }
