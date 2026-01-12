@@ -145,4 +145,10 @@
   <data name="ManagePanels_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ManagePanels_16.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Remove.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Remove_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Remove_16.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

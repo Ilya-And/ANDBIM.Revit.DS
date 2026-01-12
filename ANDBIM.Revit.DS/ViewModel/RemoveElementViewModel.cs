@@ -170,51 +170,148 @@ namespace ANDBIM.Revit.DS.ViewModel
                                             {
                                                 foreach (RibbonTab ribTab in ribbon.Tabs)
                                                 {
-                                                    var ribbonButton = ribTab.Panels.Where(p => p.Source.Name == panel.Name).Where(b => b.AutomationName == viewButton.Name).FirstOrDefault();
+                                                    var ribbonPanel = ribTab.Panels.Where(p => p.Source.Name == panel.Name).FirstOrDefault();
 
-                                                    if (ribbonButton != null)
+                                                    if (ribbonPanel != null)
                                                     {
-                                                        foreach (Autodesk.Windows.RibbonPanel ribbonPanel in ribTab.Panels)
+                                                        RibbonItemCollection items = ribbonPanel.Source.Items;
+
+                                                        Autodesk.Windows.RibbonButton buttonToRemove = null;
+
+                                                        foreach (Autodesk.Windows.RibbonItem item in items)
                                                         {
-                                                            if (ribbonPanel.AutomationName == panel.Name)
+                                                            if (item is Autodesk.Windows.RibbonButton)
                                                             {
-                                                                RibbonItemCollection items = ribbonPanel.Source.Items;
-
-                                                                Autodesk.Windows.RibbonButton buttonToRemove = null;
-
-                                                                foreach (Autodesk.Windows.RibbonItem item in items)
+                                                                if (((Autodesk.Windows.RibbonButton)item).AutomationName == viewButton.Name)
                                                                 {
-                                                                    if (item is Autodesk.Windows.RibbonButton)
-                                                                    {
-                                                                        if (((Autodesk.Windows.RibbonButton)item).AutomationName == viewButton.Name)
-                                                                        {
-                                                                            buttonToRemove = (Autodesk.Windows.RibbonButton)item;
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                }
-
-                                                                if (buttonToRemove != null)
-                                                                {
-                                                                    ribbonPanel.Source.Items.Remove(buttonToRemove);
+                                                                    buttonToRemove = (Autodesk.Windows.RibbonButton)item;
+                                                                    break;
                                                                 }
                                                             }
                                                         }
+
+                                                        if (buttonToRemove != null)
+                                                        {
+                                                            ribbonPanel.Source.Items.Remove(buttonToRemove);
+                                                        }
+                                                        Dictionary<string, Dictionary<string, Autodesk.Revit.UI.RibbonPanel>> ribbonItems = GetRibbonItemsDictionary();
+
+                                                        if (ribbonItems.TryGetValue(ribTab.Id, out var tabItem)) tabItem.Remove(viewButton.Name);
+
+                                                        var newConfigListToReplace = new List<ViewTab>();
 
                                                         foreach (ViewTab vTab in newConfigList)
                                                         {
-                                                            foreach (ViewPanel pan in vTab.Panels)
+                                                            foreach (ViewPanel pn in vTab.Panels)
                                                             {
-                                                                foreach (ViewButtonGroup vbg in pan.ButtonGroups)
+                                                                if (pn.Name == panel.Name)
                                                                 {
-                                                                    if (vbg.Buttons.Contains(viewButton))
+                                                                    List<int> buttonGroupsToRemove = new List<int>();
+                                                                    
+                                                                    foreach (ViewButtonGroup buttonGroup in pn.ButtonGroups)
                                                                     {
-                                                                        vbg.Buttons.Remove(viewButton);
+                                                                        List<int> btnsToRemove = new List<int>();
+
+                                                                        if (buttonGroup.Buttons.Count == 1 && buttonGroup.Buttons[0].Name == viewButton.Name)
+                                                                        {
+                                                                            buttonGroupsToRemove.Add(pn.ButtonGroups.IndexOf(buttonGroup));
+                                                                            break;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (ViewButton btn in buttonGroup.Buttons)
+                                                                            {
+                                                                                if (btn.Name == viewButton.Name)
+                                                                                {
+                                                                                    btnsToRemove.Add(buttonGroup.Buttons.IndexOf(btn));
+                                                                                }
+                                                                            }
+
+                                                                        }
+
+                                                                        if (btnsToRemove.Count > 0)
+                                                                        {
+                                                                            if (btnsToRemove.Count == buttonGroup.Buttons.Count)
+                                                                            {
+                                                                                buttonGroupsToRemove.Add(pn.ButtonGroups.IndexOf(buttonGroup));
+                                                                                break;
+                                                                            }
+
+                                                                            else
+                                                                            {
+                                                                                foreach (int buttonToRemoveInGroup in btnsToRemove)
+                                                                                {
+                                                                                    vTab.Panels[vTab.Panels.IndexOf(pn)].ButtonGroups[pn.ButtonGroups.IndexOf(buttonGroup)].Buttons
+                                                                                    .RemoveAt(buttonToRemoveInGroup);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                    if (buttonGroupsToRemove.Count > 0)
+                                                                    {
+                                                                        foreach (int buttonGroupToRemove in buttonGroupsToRemove)
+                                                                        {
+                                                                            vTab.Panels[vTab.Panels.IndexOf(pn)].ButtonGroups.RemoveAt(buttonGroupToRemove);
+                                                                        }
                                                                     }
                                                                 }
                                                             }
+
+                                                            newConfigListToReplace.Add(vTab);
                                                         }
+
+                                                        newConfigList = newConfigListToReplace;
                                                     }
+
+
+
+
+                                                    //var ribbonButton = ribTab.Panels.Where(p => p.Source.Name == panel.Name).Where(b => b.AutomationName == viewButton.Name).FirstOrDefault();
+
+                                                    //if (ribbonButton != null)
+                                                    //{
+                                                    //    foreach (Autodesk.Windows.RibbonPanel ribbonPanel in ribTab.Panels)
+                                                    //    {
+                                                    //        if (ribbonPanel.AutomationName == panel.Name)
+                                                    //        {
+                                                    //            RibbonItemCollection items = ribbonPanel.Source.Items;
+
+                                                    //            Autodesk.Windows.RibbonButton buttonToRemove = null;
+
+                                                    //            foreach (Autodesk.Windows.RibbonItem item in items)
+                                                    //            {
+                                                    //                if (item is Autodesk.Windows.RibbonButton)
+                                                    //                {
+                                                    //                    if (((Autodesk.Windows.RibbonButton)item).AutomationName == viewButton.Name)
+                                                    //                    {
+                                                    //                        buttonToRemove = (Autodesk.Windows.RibbonButton)item;
+                                                    //                        break;
+                                                    //                    }
+                                                    //                }
+                                                    //            }
+
+                                                    //            if (buttonToRemove != null)
+                                                    //            {
+                                                    //                ribbonPanel.Source.Items.Remove(buttonToRemove);
+                                                    //            }
+                                                    //        }
+                                                    //    }
+
+                                                    //    foreach (ViewTab vTab in newConfigList)
+                                                    //    {
+                                                    //        foreach (ViewPanel pan in vTab.Panels)
+                                                    //        {
+                                                    //            foreach (ViewButtonGroup vbg in pan.ButtonGroups)
+                                                    //            {
+                                                    //                if (vbg.Buttons.Contains(viewButton))
+                                                    //                {
+                                                    //                    vbg.Buttons.Remove(viewButton);
+                                                    //                }
+                                                    //            }
+                                                    //        }
+                                                    //    }
+                                                    //}
                                                 }
                                             }
                                         }

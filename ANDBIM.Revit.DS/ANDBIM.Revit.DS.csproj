@@ -285,5 +285,11 @@
   <ItemGroup>
     <Resource Include="Resources\ManagePanels_16.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Remove.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Remove_16.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

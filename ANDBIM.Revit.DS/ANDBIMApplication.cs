@@ -99,6 +99,12 @@ namespace ANDBIM.Revit.DS
                 PushButton newButtonRemoveElements = andbimPanel.AddItem(buttonDataRemoveElements) as PushButton;
                 newButtonRemoveElements.ToolTip = "Удаление созданных вкладок, панелей инструментов и кнопок";
 
+                BitmapImage newButtonRemoveElementsImg16 = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/Remove_16.ico"));
+                BitmapImage newButtonRemoveElementsImg = new BitmapImage(new Uri($"pack://application:,,,/ANDBIM.Revit.DS;component/Resources/Remove.ico"));
+
+                newButtonRemoveElements.LargeImage = newButtonRemoveElementsImg;
+                newButtonRemoveElements.Image = newButtonRemoveElementsImg16;
+
                 bool isExist = File.Exists($"{AssemblyPath}\\ANDBIM.Revit.DS.Configuration.json");
 
                 if (!isExist)

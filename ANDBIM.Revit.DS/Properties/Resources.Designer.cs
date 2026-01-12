@@ -149,5 +149,25 @@ namespace ANDBIM.Revit.DS.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
+        /// </summary>
+        internal static System.Drawing.Icon Remove {
+            get {
+                object obj = ResourceManager.GetObject("Remove", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
+        /// </summary>
+        internal static System.Drawing.Icon Remove_16 {
+            get {
+                object obj = ResourceManager.GetObject("Remove_16", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
