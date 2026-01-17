@@ -47,6 +47,9 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AssemblyName>$(AssemblyName)</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Installer|AnyCPU'">
+    <OutputPath>bin\Installer\</OutputPath>
+  </PropertyGroup>
   <Choose>
     <When Condition=" '$(Configuration)'=='R2021'">
       <ItemGroup>

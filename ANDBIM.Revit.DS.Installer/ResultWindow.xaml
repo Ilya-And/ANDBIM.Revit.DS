@@ -1,0 +1,82 @@
+﻿<Window x:Class="ANDBIM.Revit.DS.Installer.ResultWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ANDBIM.Revit.DS.Installer"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="250" Width="400"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ANDBIM.Revit.DS.Installer;component/ANDBIMWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CornerRadius="7"
+              CaptionHeight="0"
+              GlassFrameThickness="0"
+              ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Background="White"
+                CornerRadius="7"
+                Grid.RowSpan="2"
+                BorderThickness="1"
+                BorderBrush="Black"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="WhiteSmoke"
+                    CornerRadius="7,7,0,0"
+                    BorderThickness="1"
+                    BorderBrush="Black" Grid.ColumnSpan="3"/>
+            <Image Source="pack://application:,,,/ANDBIM.Revit.DS.Installer;component/Resources/LOGO_прозрачный фон.png"
+                   Margin="7"/>
+            <TextBlock x:Name="WindowName"
+                        Grid.Column="1"
+                        Text="Завершение установки"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="10"
+                       Grid.ColumnSpan="2"
+                       TextWrapping="Wrap"
+                       Text="Установка плагина успешно завершена!&#xA;&#xA;Не забудьте подписаться на мой телеграм канал, чтобы не пропустить обновления или предложить доработку.&#xA;&#xA;Приятной работы!"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            <Button Grid.Row="1"
+                    Style="{StaticResource ANDBIMButtonStyle}"
+                    Content="Перейти в Telegram канал"
+                    Click="OpenTelegram_Click"/>
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource ANDBIMButtonStyle}"
+                    Content="Завершить установку"
+                    Click="Finish_Click"/>
+        </Grid>
+    </Grid>
+</Window>
