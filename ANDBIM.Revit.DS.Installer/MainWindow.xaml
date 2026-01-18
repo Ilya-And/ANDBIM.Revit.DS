@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:ANDBIM.Revit.DS.Installer"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="400"
+        Title="MainWindow" Height="300" Width="300"
         WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True"
-        MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+        AllowsTransparency="True">
     <Grid>
         <Image gif:ImageBehavior.AnimatedSource = "/Resources/LOGOAnimation.gif"/>
     </Grid>

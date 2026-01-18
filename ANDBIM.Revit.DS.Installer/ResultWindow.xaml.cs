@@ -22,10 +22,19 @@ namespace ANDBIM.Revit.DS.Installer
     /// </summary>
     public partial class ResultWindow : Window
     {
-        public ResultWindow()
+        MainWindow MWindow;
+        public ResultWindow(MainWindow mainWindow)
         {
             InitializeComponent();
+            MWindow = mainWindow;
+            //Thread.Sleep(7000);
         }
+
+        private void ResultWindow_Activated(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -46,6 +55,7 @@ namespace ANDBIM.Revit.DS.Installer
 
         private void Finish_Click(object sender, RoutedEventArgs e)
         {
+            MWindow.Close();
             Close();
         }
     }

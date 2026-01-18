@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:ANDBIM.Revit.DS.Installer"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="400"
+        Title="MainWindow" Height="250" Width="370"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
         MouseLeftButtonDown="Grid_MouseLeftButtonDown"
-        SizeToContent="WidthAndHeight">
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -65,7 +65,7 @@
             <TextBlock Margin="10"
                        Grid.ColumnSpan="2"
                        TextWrapping="Wrap"
-                       Text="Установка плагина успешно завершена!&#xA;&#xA;Не забудьте подписаться на мой телеграм канал, чтобы не пропустить обновления или предложить доработку.&#xA;&#xA;Приятной работы!"
+                       Text="Установка плагина завершена!&#xA;&#xA;Не забудьте подписаться на мой телеграм канал, чтобы не пропустить обновления или предложить доработку.&#xA;&#xA;Приятной работы!"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
             <Button Grid.Row="1"
