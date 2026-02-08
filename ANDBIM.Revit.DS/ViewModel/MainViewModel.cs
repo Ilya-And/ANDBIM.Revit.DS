@@ -78,10 +78,15 @@ namespace ANDBIM.Revit.DS.ViewModel
                     object v = node.GetType().GetProperty("Value").GetValue(node, null);
                     nodeWorker.Value = v.ToString();
                 }
-                //else if (nodeType.Name.Contains("Boolean"))
-                //{
-                //    SetBooleanNodeData(node);
-                //}
+                else if (nodeType.Name.Contains("Bool"))
+                {
+                    object v = node.GetType().GetProperty("Value").GetValue(node, null);
+
+                    if (v.ToString().ToLower() == "true") nodeWorker.BoolValue = true;
+                    else nodeWorker.BoolValue = false;
+
+                    nodeWorker.IsBoolValue = true;
+                }
                 //else
                 //{
                 //    // Для неизвестных типов нодов пробуем универсальный подход
@@ -113,7 +118,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                 {
                     SetInputNodesData(NodeWorkerList, CommandData);
 
-                    RDM.GetType().GetMethod("ForceRun").Invoke(RDM, new object[] { });
+                    var newRDM = RDM.GetType().GetMethod("ForceRun").Invoke(RDM, new object[] { });
 
 
                     DynamoRevitCommandData dynamoRevitCommandData = new DynamoRevitCommandData
@@ -123,6 +128,9 @@ namespace ANDBIM.Revit.DS.ViewModel
                     };
 
                     RaiseCloseRequest();
+
+                    ResultWindow resultWindow = new ResultWindow();
+                    resultWindow.ShowDialog();
                 });
             }
         }
@@ -141,7 +149,7 @@ namespace ANDBIM.Revit.DS.ViewModel
                                  $"uidoc = DocumentManager.Instance.CurrentUIDocument;\\n" +
                                  $"app = DocumentManager.Instance.CurrentUIApplication.Application;";
 
-                    codeProperty.SetValue(node, code);
+                    codeProperty.SetValue(node, value);
                 }
             }
             catch (Exception ex)
@@ -191,14 +199,14 @@ namespace ANDBIM.Revit.DS.ViewModel
                 var valueProperty = node.GetType().GetProperty("Value");
                 if (valueProperty != null)
                 {
-                    valueProperty.SetValue(node, "Data from C# plugin");
+                    valueProperty.SetValue(node, value);
                     return;
                 }
 
                 var textProperty = node.GetType().GetProperty("Text");
                 if (textProperty != null)
                 {
-                    textProperty.SetValue(node, "Input from external command");
+                    textProperty.SetValue(node, value);
                 }
             }
             catch (Exception ex)
@@ -210,21 +218,21 @@ namespace ANDBIM.Revit.DS.ViewModel
         /// <summary>
         /// Устанавливает данные для булевой ноды
         /// </summary>
-        private void SetBooleanNodeData(object node, string value)
+        private void SetBooleanNodeData(object node, bool value)
         {
             try
             {
                 var valueProperty = node.GetType().GetProperty("Value");
                 if (valueProperty != null)
                 {
-                    valueProperty.SetValue(node, true);
+                    valueProperty.SetValue(node, value);
                     return;
                 }
 
-                var boolProperty = node.GetType().GetProperty("Boolean");
+                var boolProperty = node.GetType().GetProperty("Bool");
                 if (boolProperty != null)
                 {
-                    boolProperty.SetValue(node, true);
+                    boolProperty.SetValue(node, value);
                 }
             }
             catch (Exception ex)
@@ -304,9 +312,9 @@ namespace ANDBIM.Revit.DS.ViewModel
             {
                 SetStringNodeData(node.Node, node.Value);
             }
-            else if (nodeType.Name.Contains("Boolean"))
+            else if (nodeType.Name.Contains("Bool"))
             {
-                SetBooleanNodeData(node.Node, node.Value);
+                SetBooleanNodeData(node.Node, node.BoolValue);
             //}
             //else
             //{

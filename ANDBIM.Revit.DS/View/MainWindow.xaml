@@ -85,7 +85,24 @@
                                      Grid.Column="1"
                                      HorizontalAlignment="Stretch"
                                      HorizontalContentAlignment="Center"
-                                     Margin="3"/>
+                                     Margin="3"
+                                     Visibility="{Binding TextValueVisibility}"/>
+                            <Grid Grid.Column="1"
+                                  Visibility="{Binding BoolValueVisibility}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Content="Да"
+                                             IsChecked="{Binding BoolValue}"
+                                             Visibility="{Binding BoolValueVisibility}"
+                                             Margin="3"/>
+                                <RadioButton Content="Нет"
+                                             Grid.Column="1"
+                                             IsChecked="{Binding NotBoolValue}"
+                                             Visibility="{Binding BoolValueVisibility}"
+                                             Margin="3"/>
+                            </Grid>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

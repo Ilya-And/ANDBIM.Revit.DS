@@ -53,6 +53,9 @@
   <Choose>
     <When Condition=" '$(Configuration)'=='R2021'">
       <ItemGroup>
+        <Reference Include="AdWindows">
+          <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
+        </Reference>
         <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
           <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
           <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -158,6 +161,14 @@
       <HintPath>C:\Program Files\Autodesk\Revit 2023\AddIns\DynamoForRevit\Revit\DynamoRevitDS.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DynamoServices">
+      <HintPath>C:\Program Files\Autodesk\Revit 2023\AddIns\DynamoForRevit\DynamoServices.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ProtoCore">
+      <HintPath>C:\Program Files\Autodesk\Revit 2023\AddIns\DynamoForRevit\ProtoCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -200,10 +211,17 @@
     <Compile Include="Services\ANDBIMProgressBarWindow.xaml.cs">
       <DependentUpon>ANDBIMProgressBarWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\ResultViewModel.cs" />
     <Compile Include="ViewModel\SetButtonParametersViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RemoveElementViewModel.cs" />
     <Compile Include="ViewModel\SetNameViewModel.cs" />
+    <Compile Include="View\ResultNodesWindow.xaml.cs">
+      <DependentUpon>ResultNodesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultWindow.xaml.cs">
+      <DependentUpon>ResultWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -232,6 +250,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Services\ANDBIMWindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ResultNodesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ResultWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -167,6 +167,9 @@ namespace ANDBIM.Revit.DS
                             Application = uiApp,
                             JournalData = journalData
                         };
+
+                        //ResultWindow resultWindow = new ResultWindow(commandData, rdm, journalData);
+                        //resultWindow.ShowDialog();
                     }
                     // Передаем данные на входные ноды
                     //SetInputNodesData(inputNodes, commandData);
@@ -437,7 +440,7 @@ namespace ANDBIM.Revit.DS
                         || nodeType.Name.Contains("Integer") 
                         || nodeType.Name.Contains("Double")
                         || nodeType.Name.Contains("String")
-                        || nodeType.Name.Contains("Boolean"))
+                        || nodeType.Name.Contains("Bool"))
                     {
                         // Пробуем получить свойство IsInput через рефлексию
                         //var isInputProperty = node.GetType().GetProperty("IsInputNode");
